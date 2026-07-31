@@ -11,12 +11,17 @@
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css">
 
     <style>
+        /* ==========================================================================
+           1. VARIABLES DE DISEÑO (PALETA TEAL Y CONFIGURACIÓN)
+           ========================================================================== */
         :root {
-            --teal-sobre: #005A5B;
-            --teal-sobre-oscuro: #004445;
-            --crema-fondo: #F4F1EA;
-            --texto-oscuro: #2C3E42;
-            --texto-secundario: #607D81;
+            --teal-sobre: #005A5B;          /* Color principal del sobre exterior */
+            --teal-sobre-oscuro: #004445;   /* Sombra interna del sobre */
+            --crema-papel: #FDFBF7;         /* Color marfil / crema de las tarjetas */
+            --fondo-lino: #F4F1EA;          /* Fondo simulador de lino/tela */
+            --texto-principal: #2C3E42;     /* Gris oscuro para textos principales */
+            --texto-secundario: #607D81;    /* Gris cálido atenuado */
+            --dorado-lacre: #C29E53;        /* Acabado metálico artesanal */
         }
 
         * {
@@ -26,427 +31,141 @@
         }
 
         body {
-            background-color: var(--crema-fondo);
+            background-color: var(--fondo-lino);
+            /* Simulación de textura sutil de tela */
             background-image: radial-gradient(rgba(0,0,0,0.02) 1px, transparent 0);
-            background-size: 6px 6px;
-            color: var(--texto-oscuro);
+            background-size: 8px 8px;
+            color: var(--texto-principal);
             font-family: 'Cormorant Garamond', serif;
             display: flex;
             justify-content: center;
-            align-items: flex-start;
+            align-items: center;
             min-height: 100vh;
-            overflow-x: hidden;
+            overflow: hidden;
+            perspective: 1200px; /* Perspectiva global indispensable para el 3D */
         }
 
-        .contenedor-movil {
-            width: 100%;
-            max-width: 430px;
+        /* Contenedor principal responsive (Enfoque Mobile First) */
+        .escenario-invitacion {
             position: relative;
-            display: flex;
-            flex-direction: column;
-            background: #FAF9F6;
-            box-shadow: 0 0 30px rgba(0,0,0,0.05);
-            min-height: 100vh;
-        }
-
-        /* --- CONTENEDOR FIJO DE LA ANIMACIÓN DEL SOBRE --- */
-        .pantalla-sobre {
-            position: fixed;
-            top: 0;
-            left: 50%;
-            transform: translateX(-50%);
             width: 100%;
-            max-width: 430px;
-            height: 100vh;
-            background-color: var(--crema-fondo);
-            z-index: 1000;
+            max-width: 420px;
+            height: 90vh;
+            max-height: 740px;
             display: flex;
             justify-content: center;
             align-items: center;
-            transition: transform 0.9s cubic-bezier(0.76, 0, 0.24, 1);
-            overflow: hidden;
         }
 
-        /* Estructura fija del sobre */
-        .sobre-contenedor {
-            position: relative;
-            width: 360px;
-            height: 500px;
-            display: flex;
-            justify-content: center;
-            align-items: flex-end;
-        }
-
-        /* Respaldo trasero del sobre (Asegura el fondo del Teal interno) */
-        .sobre-fondo-trasero {
+        /* ==========================================================================
+           2. COMPONENTE: TARJETA DELANTE DEL SOBRE (ESTÁTICA INICIAL)
+           ========================================================================== */
+        .tarjeta-frontal {
             position: absolute;
-            bottom: 0;
-            left: 0;
-            width: 360px;
-            height: 250px;
-            background-color: var(--teal-sobre-oscuro);
-            z-index: 1;
-            border-radius: 0 0 8px 8px;
-        }
-
-        /* Tarjeta interior blanca (Inicialmente escondida al 100% detrás del frente) */
-        .tarjeta-interior {
-            position: absolute;
-            bottom: 10px;
-            width: 320px;
-            height: 380px;
-            background: #FFFFFF;
-            padding: 30px 20px;
+            width: 85%;
+            height: 72%;
+            background: var(--crema-papel);
+            padding: 35px 25px;
             text-align: center;
-            box-shadow: 0 4px 15px rgba(0,0,0,0.06);
-            z-index: 2;
-            transition: transform 0.8s cubic-bezier(0.25, 1, 0.5, 1);
+            box-shadow: 0 15px 35px rgba(0,0,0,0.08);
+            z-index: 100; /* Por encima de todo al inicio */
             display: flex;
             flex-direction: column;
             justify-content: space-between;
             align-items: center;
             border-radius: 4px;
-            transform: translateY(0px); /* Oculta */
+            transition: transform 0.8s cubic-bezier(0.76, 0, 0.24, 1), opacity 0.6s ease;
+            border: 1px solid rgba(0,0,0,0.03);
         }
 
-        /* Monograma Ovalado Exacto L J */
-        .monograma-marco {
-            width: 80px;
-            height: 120px;
-            border: 1px solid #D1C7BD;
-            border-radius: 50px;
-            position: relative;
-            display: flex;
-            align-items: center;
-            justify-content: center;
-            margin: 10px auto;
-        }
-
-        .monograma-marco::before {
-            content: '🌿';
-            position: absolute;
-            top: -8px;
-            font-size: 0.8rem;
-        }
-
-        .monograma-marco::after {
-            content: '🌿';
-            position: absolute;
-            bottom: -8px;
-            font-size: 0.8rem;
-            transform: rotate(180deg);
-        }
-
-        .monograma-texto {
-            font-size: 2.5rem;
-            font-weight: 300;
-            letter-spacing: -2px;
-            display: flex;
-            align-items: center;
-            justify-content: center;
-        }
-
-        .monograma-texto span {
-            font-size: 1.4rem;
-            color: var(--texto-secundario);
-            margin: 0 2px;
-            position: relative;
-            top: 5px;
-        }
-
-        .encabezado-tarjeta {
-            font-size: 0.9rem;
-            letter-spacing: 3px;
+        .encabezado-boda {
+            font-size: 0.95rem;
+            letter-spacing: 4px;
             text-transform: uppercase;
             color: var(--texto-secundario);
         }
 
-        .sub-tarjeta {
+        /* Monograma Ovalado Premium */
+        .monograma-marco {
+            width: 75px;
+            height: 110px;
+            border: 1px solid #D1C7BD;
+            border-radius: 50px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            margin: 10px auto;
+            position: relative;
+        }
+        .monograma-marco::before { content: '🌿'; position: absolute; top: -8px; font-size: 0.75rem; }
+        .monograma-marco::after { content: '🌿'; position: absolute; bottom: -8px; font-size: 0.75rem; transform: rotate(180deg); }
+
+        .monograma-letras {
+            font-size: 2.3rem;
+            font-weight: 300;
+            letter-spacing: -2px;
+        }
+        .monograma-letras span {
+            font-size: 1.3rem;
+            color: var(--texto-secundario);
+            margin: 0 1px;
+        }
+
+        .seccion-invitado {
+            width: 100%;
+        }
+        .texto-reserva {
             font-family: 'Montserrat', sans-serif;
             font-size: 0.65rem;
             letter-spacing: 2px;
             text-transform: uppercase;
             color: var(--texto-secundario);
-            margin-bottom: 6px;
+            margin-bottom: 5px;
         }
-
-        .invitado-nombre {
-            font-size: 1.6rem;
+        .nombre-familia {
+            font-size: 1.7rem;
             font-weight: 400;
-            margin-bottom: 4px;
+            color: var(--texto-principal);
+            margin-bottom: 3px;
         }
-
-        .invitado-pases {
+        .pases-cantidad {
             font-family: 'Montserrat', sans-serif;
             font-size: 0.75rem;
-            color: var(--texto-oscuro);
             font-weight: bold;
+            color: var(--teal-sobre);
         }
 
-        .btn-abrir-invitacion {
+        .btn-accion {
             width: 100%;
             background: transparent;
-            border: 1px solid #D1D1D1;
-            padding: 12px;
+            border: 1px solid #C5BBAE;
+            padding: 14px;
             font-family: 'Cormorant Garamond', serif;
-            font-size: 1.05rem;
-            letter-spacing: 1px;
-            cursor: pointer;
-            transition: all 0.3s;
-        }
-
-        .btn-abrir-invitacion:hover {
-            background: #F9F9F9;
-            border-color: var(--teal-sobre);
-        }
-
-        /* Cuerpo del Frente del sobre */
-        .sobre-frontal {
-            position: absolute;
-            bottom: 0;
-            left: 0;
-            width: 360px;
-            height: 250px;
-            background-color: var(--teal-sobre);
-            z-index: 4;
-            border-radius: 0 0 8px 8px;
-            box-shadow: 0 8px 25px rgba(0,0,0,0.15);
-        }
-
-        /* Cortes diagonales simulados del sobre doblado */
-        .sobre-frontal::before {
-            content: '';
-            position: absolute;
-            bottom: 0; left: 0;
-            border-left: 180px solid var(--teal-sobre-oscuro);
-            border-top: 250px solid transparent;
-            z-index: 4;
-            border-radius: 0 0 0 8px;
-        }
-
-        .sobre-frontal::after {
-            content: '';
-            position: absolute;
-            bottom: 0; right: 0;
-            border-right: 180px solid var(--teal-sobre-oscuro);
-            border-top: 250px solid transparent;
-            z-index: 4;
-            border-radius: 0 0 8px 0;
-        }
-
-        /* Solapa triangular superior (Eje de rotación exacto) */
-        .sobre-solapa {
-            position: absolute;
-            top: 250px; /* Anclado justo al ras del cuerpo frontal */
-            left: 0;
-            width: 0;
-            height: 0;
-            border-left: 180px solid transparent;
-            border-right: 180px solid transparent;
-            border-top: 135px solid var(--teal-sobre);
-            transform-origin: top center;
-            transition: transform 0.6s ease-in-out, z-index 0.1s 0.3s;
-            z-index: 5;
-            filter: drop-shadow(0 4px 6px rgba(0,0,0,0.12));
-        }
-
-        /* Sello físico de lacre */
-        .sello-lacre {
-            position: absolute;
-            top: 225px; /* Centrado exactamente en el pico triangular original */
-            left: 50%;
-            transform: translateX(-50%);
-            width: 52px;
-            height: 52px;
-            background: radial-gradient(circle, #EBD09B 0%, #C29E53 100%);
-            border-radius: 50%;
-            cursor: pointer;
-            z-index: 6;
-            box-shadow: 0 4px 10px rgba(0,0,0,0.25), inset 0 2px 4px rgba(255,255,255,0.3);
-            transition: transform 0.4s, opacity 0.3s;
-            display: flex;
-            align-items: center;
-            justify-content: center;
-        }
-
-        .sello-lacre::after {
-            content: '⚜️';
             font-size: 1.1rem;
-            opacity: 0.65;
-            color: #6E531C;
-        }
-
-        /* --- CLASES DINÁMICAS ACTIVADAS POR JAVASCRIPT --- */
-        
-        /* FASE 1: Se abre la solapa y emerge la tarjeta hacia arriba */
-        .sobre-contenedor.abierto .sobre-solapa {
-            transform: rotateX(180deg);
-            z-index: 1; /* Pasa detrás de la tarjeta */
-        }
-
-        .sobre-contenedor.abierto .sello-lacre {
-            transform: translate(-50%, -30px) scale(0);
-            opacity: 0;
-            pointer-events: none;
-        }
-
-        .sobre-contenedor.abierto .tarjeta-interior {
-            transform: translateY(-200px); /* Se eleva saliendo del sobre */
-            z-index: 10; /* Se superpone ante todo */
-        }
-
-        /* FASE 2: Todo el sobre sube limpiamente y desaparece */
-        .pantalla-sobre.oculta {
-            transform: translateX(-50%) translateY(-100vh);
-        }
-
-        /* --- CUERPO PRINCIPAL (POST-APERTURA) --- */
-        .contenido-principal {
-            width: 100%;
-            padding: 40px 20px;
-            display: flex;
-            flex-direction: column;
-            align-items: center;
-        }
-
-        .seccion-hero {
-            text-align: center;
-            width: 100%;
-            margin-bottom: 40px;
-        }
-
-        .foto-boda {
-            width: 100%;
-            height: 460px;
-            object-fit: cover;
-            border-radius: 4px;
-            box-shadow: 0 6px 20px rgba(0,0,0,0.06);
-        }
-
-        h1 {
-            font-size: 2.5rem;
-            font-weight: 300;
-            letter-spacing: 5px;
-            margin: 25px 0 10px 0;
-            text-align: center;
-            color: var(--teal-sobre-oscuro);
-        }
-
-        .frase-amor {
-            font-size: 1.15rem;
-            font-style: italic;
-            color: var(--texto-secundario);
-            line-height: 1.6;
-            padding: 0 15px;
-            text-align: center;
-        }
-
-        /* CONTROLES MULTIMEDIA FLOTANTES */
-        .boton-musica {
-            position: fixed;
-            bottom: 25px;
-            left: 25px;
-            width: 45px;
-            height: 45px;
-            background: #FFFFFF;
-            border-radius: 50%;
-            display: flex;
-            align-items: center;
-            justify-content: center;
-            box-shadow: 0 4px 15px rgba(0,0,0,0.1);
+            letter-spacing: 2px;
+            text-transform: uppercase;
             cursor: pointer;
-            z-index: 2000;
-            color: var(--texto-oscuro);
+            transition: all 0.3s cubic-bezier(0.25, 1, 0.5, 1);
+            border-radius: 2px;
         }
-    </style>
-</head>
-<body>
-
-    <audio id="musicaBoda" loop src="https://docs.google.com/uc?export=download&id=1xkem7zhA0DQPEdz5gSJDbYaxtuSJctUC"></audio>
-    
-    <div class="boton-musica" onclick="alternarMusica()">
-        <i id="iconoMusica" class="fas fa-music"></i>
-    </div>
-
-    <div class="contenedor-movil">
-
-        <div class="pantalla-sobre" id="pantallaSobre">
-            <div class="sobre-contenedor" id="sobreContenedor">
-                
-                <div class="sobre-fondo-trasero"></div>
-
-                <div class="tarjeta-interior">
-                    <p class="encabezado-tarjeta">Nuestra Boda</p>
-                    
-                    <div class="monograma-marco">
-                        <div class="monograma-texto">L<span>J</span></div>
-                    </div>
-
-                    <div style="width: 100%;">
-                        <p class="sub-tarjeta">Invitación exclusiva para:</p>
-                        <h3 class="invitado-nombre" id="nombreInvitado">Familia Martínez</h3>
-                        <p class="invitado-pases" id="pasesInvitado">2 pases</p>
-                    </div>
-
-                    <button class="btn-abrir-invitacion" onclick="entrarInvitacion()">Abrir Invitación</button>
-                </div>
-
-                <div class="sobre-frontal"></div>
-
-                <div class="sobre-solapa"></div>
-
-                <div class="sello-lacre" onclick="abrirSolapa()"></div>
-
-            </div>
-        </div>
-
-        <div class="contenido-principal">
-            <div class="seccion-hero">
-                <img src="http://googleusercontent.com/profile/picture/3" class="foto-boda" alt="Lore y Juli">
-                <h1>LORE & JULI</h1>
-                <p class="frase-amor">"A veces lo que empieza como una locura, se convierte en lo mejor de tu vida."</p>
-            </div>
-            
-            </div>
-
-    </div>
-
-    <script>
-        // Sistema automático de detección de pases por enlace (?n=Nombre&p=Cantidad)
-        const urlParams = new URLSearchParams(window.location.search);
-        if(urlParams.get('n')) document.getElementById('nombreInvitado').innerText = urlParams.get('n');
-        if(urlParams.get('p')) document.getElementById('pasesInvitado').innerText = urlParams.get('p') + " personas";
-
-        const sobreContenedor = document.getElementById('sobreContenedor');
-        const pantallaSobre = document.getElementById('pantallaSobre');
-        const audio = document.getElementById('musicaBoda');
-        const icono = document.getElementById('iconoMusica');
-
-        // FASE 1: Giro en 3D de la solapa y salida gradual de la tarjeta
-        function abrirSolapa() {
-            sobreContenedor.classList.add('abierto');
-            // Activa la pista de audio con la primera interacción del usuario
-            audio.play().then(() => {
-                icono.className = "fas fa-pause";
-            }).catch(() => console.log("Audio en espera de permisos del navegador."));
+        .btn-accion:hover {
+            background: var(--texto-principal);
+            color: #FFFFFF;
+            border-color: var(--texto-principal);
         }
 
-        // FASE 2: Desplazamiento vertical del sobre completo hacia arriba
-        function entrarInvitacion() {
-            pantallaSobre.classList.add('oculta');
-            window.scrollTo({ top: 0, behavior: 'smooth' });
+        /* ==========================================================================
+           3. COMPONENTE: ESTRUCTURA MECÁNICA DEL SOBRE (MECANISMO 3D)
+           ========================================================================== */
+        .sobre-contenedor {
+            position: relative;
+            width: 90%;
+            height: 60%;
+            transform-style: preserve-3d;
+            transition: transform 0.5s ease;
         }
 
-        // Control del botón flotante de música
-        function alternarMusica() {
-            if (audio.paused) {
-                audio.play();
-                icono.className = "fas fa-pause";
-            } else {
-                audio.pause();
-                icono.className = "fas fa-music";
-            }
-        }
-    </script>
-</body>
-</html>
+        /* Pared Trasera (Interior del sobre) */
+        .sobre-fondo-interior {
+            position: absolute;
+            width: 100%;
