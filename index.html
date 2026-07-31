@@ -3,9 +3,8 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Invitación de Boda - Rebeca & Pablo</title>
+    <title>Invitación de Boda - Lore & Juli</title>
     
-    <!-- Fuentes elegantes e importación de iconos -->
     <link rel="preconnect" href="https://fonts.googleapis.com">
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
     <link href="https://fonts.googleapis.com/css2?family=Cormorant+Garamond:ital,wght@0,300;0,400;0,600;1,400&family=Montserrat:wght@300;400&display=swap" rel="stylesheet">
@@ -28,14 +27,13 @@
 
         body {
             background-color: var(--crema-fondo);
-            /* Fondo texturizado simulando el lino del video original */
             background-image: radial-gradient(rgba(0,0,0,0.03) 1px, transparent 0);
             background-size: 4px 4px;
             color: var(--texto-oscuro);
             font-family: 'Cormorant Garamond', serif;
             display: flex;
             justify-content: center;
-            align-items: center;
+            align-items: flex-start;
             min-height: 100vh;
             overflow-x: hidden;
         }
@@ -43,139 +41,63 @@
         .contenedor-movil {
             width: 100%;
             max-width: 430px;
-            min-height: 100vh;
             position: relative;
             display: flex;
             flex-direction: column;
             background: #FAF8F5;
             box-shadow: 0 0 30px rgba(0,0,0,0.08);
+            min-height: 100vh;
         }
 
-        /* --- CONTENEDOR DE LA ANIMACIÓN DEL SOBRE --- */
-        .seccion-sobre {
+        /* --- CONTENEDOR DE LA PANTALLA DEL SOBRE --- */
+        .pantalla-sobre {
             position: fixed;
             top: 0;
             left: 50%;
             transform: translateX(-50%);
             width: 100%;
             max-width: 430px;
-            height: 100%;
-            z-index: 100;
+            height: 100vh;
+            background-color: var(--crema-fondo);
+            z-index: 1000;
             display: flex;
             justify-content: center;
             align-items: center;
-            transition: transform 1s cubic-bezier(0.77, 0, 0.175, 1);
-            overflow: hidden;
+            transition: transform 0.8s cubic-bezier(0.77, 0, 0.175, 1), opacity 0.8s;
         }
 
-        /* El contenedor estructural del sobre */
-        .sobre-wrapper {
+        /* Estructura del sobre con posición absoluta interna controlada */
+        .sobre-contenedor {
             position: relative;
-            width: 90%;
-            height: 580px;
-            display: flex;
-            justify-content: center;
-            align-items: center;
+            width: 360px;
+            height: 480px;
         }
 
-        /* Cuerpo inferior y laterales del sobre */
-        .sobre-cuerpo {
-            position: absolute;
-            bottom: 40px;
-            width: 100%;
-            height: 240px;
-            background-color: var(--verde-sobre);
-            border-radius: 0 0 8px 8px;
-            box-shadow: 0 15px 35px rgba(0, 0, 0, 0.15);
-            z-index: 4;
-        }
-
-        /* Efecto de solapas laterales internas cortadas en diagonal */
-        .sobre-cuerpo::before {
-            content: '';
-            position: absolute;
-            top: 0; left: 0; width: 0; height: 0;
-            border-left: 195px solid var(--verde-sobre-oscuro);
-            border-top: 120px solid transparent;
-            border-bottom: 120px solid var(--verde-sobre-oscuro);
-            border-radius: 0 0 0 8px;
-        }
-
-        .sobre-cuerpo::after {
-            content: '';
-            position: absolute;
-            top: 0; right: 0; width: 0; height: 0;
-            border-right: 195px solid var(--verde-sobre-oscuro);
-            border-top: 120px solid transparent;
-            border-bottom: 120px solid var(--verde-sobre-oscuro);
-            border-radius: 0 0 8px 0;
-        }
-
-        /* Solapa triangular superior */
-        .sobre-solapa {
-            position: absolute;
-            top: 260px;
-            left: 0;
-            width: 0;
-            height: 0;
-            border-left: 193px solid transparent;
-            border-right: 193px solid transparent;
-            border-top: 135px solid var(--verde-sobre);
-            transform-origin: top center;
-            transition: transform 0.6s ease-in-out, z-index 0.2s 0.4s;
-            z-index: 5;
-            filter: drop-shadow(0 4px 5px rgba(0,0,0,0.1));
-        }
-
-        /* SELLO DE LACRE / CERA */
-        .sello {
-            position: absolute;
-            top: 360px;
-            left: 50%;
-            transform: translateX(-50%);
-            width: 55px;
-            height: 55px;
-            background: radial-gradient(circle, #E3C17E 0%, #C29E53 100%);
-            border-radius: 50%;
-            cursor: pointer;
-            z-index: 6;
-            box-shadow: 0 4px 10px rgba(0,0,0,0.2), inset 0 2px 4px rgba(255,255,255,0.4);
-            transition: transform 0.4s, opacity 0.4s 0.2s;
-            display: flex;
-            align-items: center;
-            justify-content: center;
-        }
-
-        .sello::after {
-            content: '⚜️';
-            font-size: 1.2rem;
-            opacity: 0.7;
-            color: #7A5F23;
-        }
-
-        /* --- TARJETA BLANCA QUE SALE DEL SOBRE --- */
+        /* Tarjeta blanca interior (empieza guardada abajo) */
         .tarjeta-interior {
             position: absolute;
-            bottom: 45px;
-            width: 84%;
-            height: 480px;
+            bottom: 10px;
+            left: 20px;
+            width: 320px;
+            height: 400px;
             background: #FFFFFF;
-            padding: 35px 25px;
+            padding: 30px 20px;
             text-align: center;
-            box-shadow: 0 4px 20px rgba(0,0,0,0.06);
-            z-index: 3;
-            transition: transform 1s cubic-bezier(0.68, -0.55, 0.265, 1.55);
+            box-shadow: 0 4px 15px rgba(0,0,0,0.05);
+            z-index: 2;
+            transition: transform 0.8s cubic-bezier(0.25, 1, 0.5, 1);
             display: flex;
             flex-direction: column;
             justify-content: space-between;
             align-items: center;
+            border-radius: 4px;
         }
 
-        /* LOGO MONOGRAMA IDENTICO AL VIDEO */
+        /* Monograma Ovalado Rectificado */
         .monograma-marco {
-            width: 70px;
-            height: 110px;
-            border: 1px solid var(--texto-secundario);
+            width: 80px;
+            height: 120px;
+            border: 1px solid #C0C0C0;
             border-radius: 50px;
             position: relative;
             display: flex;
@@ -184,35 +106,41 @@
             margin: 10px auto;
         }
 
-        /* Hojas decorativas del marco (simuladas con pseudo-elementos) */
-        .monograma-marco::before, .monograma-marco::after {
+        .monograma-marco::before {
             content: '🌿';
             position: absolute;
-            font-size: 0.7rem;
-            color: var(--verde-sobre);
+            top: -8px;
+            font-size: 0.8rem;
         }
-        .monograma-marco::before { top: -5px; left: 15px; transform: rotate(-30deg); }
-        .monograma-marco::after { bottom: -5px; right: 15px; transform: rotate(150deg); }
+
+        .monograma-marco::after {
+            content: '🌿';
+            position: absolute;
+            bottom: -8px;
+            font-size: 0.8rem;
+            transform: rotate(180deg);
+        }
 
         .monograma-texto {
-            font-size: 2.2rem;
+            font-size: 2.4rem;
             font-weight: 300;
             letter-spacing: -2px;
-            line-height: 1;
-            font-family: 'Cormorant Garamond', serif;
+            display: flex;
+            align-items: center;
+            justify-content: center;
         }
 
         .monograma-texto span {
-            font-size: 1.4rem;
-            position: relative;
-            top: 10px;
-            font-weight: 400;
+            font-size: 1.3rem;
             color: var(--texto-secundario);
+            margin: 0 2px;
+            position: relative;
+            top: 5px;
         }
 
         .encabezado-tarjeta {
-            font-size: 1rem;
-            letter-spacing: 2px;
+            font-size: 0.9rem;
+            letter-spacing: 3px;
             text-transform: uppercase;
             color: var(--texto-secundario);
         }
@@ -220,101 +148,176 @@
         .sub-tarjeta {
             font-family: 'Montserrat', sans-serif;
             font-size: 0.65rem;
-            letter-spacing: 3px;
+            letter-spacing: 2px;
             text-transform: uppercase;
             color: var(--texto-secundario);
-            margin-top: 15px;
-            border-top: 1px solid #EAEAEA;
-            padding-top: 15px;
-            width: 80%;
+            margin-bottom: 5px;
         }
 
         .invitado-nombre {
-            font-size: 1.6rem;
+            font-size: 1.5rem;
             font-weight: 400;
-            margin: 5px 0;
+            margin-bottom: 4px;
         }
 
         .invitado-pases {
             font-family: 'Montserrat', sans-serif;
-            font-size: 0.8rem;
-            color: var(--texto-oscuro);
+            font-size: 0.75rem;
+            color: var(--texto-secundario);
         }
 
         .btn-abrir-invitacion {
             width: 100%;
             background: transparent;
-            border: 1px solid #CCCCCC;
-            padding: 12px;
+            border: 1px solid #D1D1D1;
+            padding: 10px;
             font-family: 'Cormorant Garamond', serif;
-            font-size: 1.05rem;
+            font-size: 1rem;
             letter-spacing: 1px;
             cursor: pointer;
             transition: all 0.3s;
-            margin-top: 15px;
         }
 
-        .btn-abrir-invitacion:hover {
-            background: #F9F9F9;
-            border-color: #888888;
+        /* Cuerpo principal del sobre (Frente) */
+        .sobre-frontal {
+            position: absolute;
+            bottom: 0;
+            left: 0;
+            width: 360px;
+            height: 250px;
+            background-color: var(--verde-sobre);
+            z-index: 4;
+            border-radius: 0 0 8px 8px;
+            box-shadow: 0 8px 25px rgba(0,0,0,0.15);
         }
 
-        /* --- ESTADOS DE LA ANIMACIÓN (DISPARADOS POR JS) --- */
-        .sobre-wrapper.abierto .sobre-solapa {
-            transform: rotateX(180deg);
-            z-index: 2;
+        /* Recortes diagonales imitando las solapas plegadas */
+        .sobre-frontal::before {
+            content: '';
+            position: absolute;
+            bottom: 0; left: 0;
+            border-left: 180px solid var(--verde-sobre-oscuro);
+            border-top: 250px solid transparent;
+            z-index: 4;
+            border-radius: 0 0 0 8px;
         }
 
-        .sobre-wrapper.abierto .sello {
-            transform: translate(-50%, 80px) scale(0);
-            opacity: 0;
+        .sobre-frontal::after {
+            content: '';
+            position: absolute;
+            bottom: 0; right: 0;
+            border-right: 180px solid var(--verde-sobre-oscuro);
+            border-top: 250px solid transparent;
+            z-index: 4;
+            border-radius: 0 0 8px 0;
         }
 
-        .sobre-wrapper.abierto .tarjeta-interior {
-            transform: translateY(-250px);
+        /* Solapa superior triangular */
+        .sobre-solapa {
+            position: absolute;
+            top: 230px; /* Alineada exactamente arriba del frente */
+            left: 0;
+            width: 0;
+            height: 0;
+            border-left: 180px solid transparent;
+            border-right: 180px solid transparent;
+            border-top: 130px solid var(--verde-sobre);
+            transform-origin: top center;
+            transition: transform 0.5s ease-in-out, z-index 0.1s 0.2s;
+            z-index: 5;
+            filter: drop-shadow(0 4px 5px rgba(0,0,0,0.1));
+        }
+
+        /* Sello de lacre */
+        .sello-lacre {
+            position: absolute;
+            top: 210px;
+            left: 50%;
+            transform: translateX(-50%);
+            width: 50px;
+            height: 50px;
+            background: radial-gradient(circle, #E3C17E 0%, #C29E53 100%);
+            border-radius: 50%;
+            cursor: pointer;
             z-index: 6;
+            box-shadow: 0 4px 8px rgba(0,0,0,0.2);
+            transition: transform 0.4s, opacity 0.3s;
+            display: flex;
+            align-items: center;
+            justify-content: center;
         }
 
-        .seccion-sobre.desvanecido {
-            transform: translateX(-50%) translateY(-100vh);
+        .sello-lacre::after {
+            content: '⚜️';
+            font-size: 1rem;
+            opacity: 0.6;
+            color: #7A5F23;
         }
 
-        /* --- CUERPO PRINCIPAL DE LA WEB (POST-APERTURA) --- */
-        .contenido-principal {
-            padding: 40px 25px;
+        /* --- CLASES DE CONTROL DE ANIMACIÓN --- */
+        .sobre-contenedor.abierto .sobre-solapa {
+            transform: rotateX(180deg);
+            z-index: 1;
+        }
+
+        .sobre-contenedor.abierto .sello-lacre {
+            transform: translate(-50%, -20px) scale(0);
             opacity: 0;
-            transition: opacity 0.8s ease-in-out;
+            pointer-events: none;
         }
 
-        .seccion {
+        .sobre-contenedor.abierto .tarjeta-interior {
+            transform: translateY(-160px);
+            z-index: 10;
+        }
+
+        .pantalla-sobre.oculta {
+            transform: translateX(-50%) translateY(-100vh);
+            opacity: 0;
+            pointer-events: none;
+        }
+
+        /* --- CONTENIDO INVITACIÓN COMPLETA (POST-APERTURA) --- */
+        .contenido-principal {
+            width: 100%;
+            padding: 40px 20px;
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+        }
+
+        .seccion-hero {
             text-align: center;
-            margin-bottom: 60px;
+            width: 100%;
+            margin-bottom: 40px;
         }
 
         .foto-boda {
             width: 100%;
-            height: 480px;
+            height: 450px;
             object-fit: cover;
-            border-radius: 2px;
-            box-shadow: 0 8px 20px rgba(0,0,0,0.05);
+            border-radius: 4px;
+            box-shadow: 0 4px 15px rgba(0,0,0,0.05);
         }
 
         h1 {
-            font-size: 2.6rem;
+            font-size: 2.4rem;
             font-weight: 300;
             letter-spacing: 4px;
             margin: 25px 0 10px 0;
+            text-align: center;
         }
 
         .frase-amor {
-            font-size: 1.2rem;
+            font-size: 1.15rem;
             font-style: italic;
             color: var(--texto-secundario);
-            padding: 0 20px;
             line-height: 1.6;
+            padding: 0 15px;
+            text-align: center;
         }
 
-        /* CONTROLES FLOTANTES */
+        /* CONTROLES MULTIMEDIA FLOTANTES */
         .boton-musica {
             position: fixed;
             bottom: 25px;
@@ -328,112 +331,88 @@
             justify-content: center;
             box-shadow: 0 4px 15px rgba(0,0,0,0.1);
             cursor: pointer;
-            z-index: 200;
+            z-index: 2000;
             color: var(--texto-oscuro);
-            transition: transform 0.3s;
-        }
-
-        .boton-musica:active {
-            transform: scale(0.9);
         }
     </style>
 </head>
 <body>
 
-    <!-- REPRODUCTOR DE AUDIO (Se activa con tu archivo de Google Drive configurado en modo descarga directa) -->
-    <audio id="musicaFondo" loop src="https://docs.google.com/uc?export=download&id=1xkem7zhA0DQPEdz5gSJDbYaxtuSJctUC"></audio>
+    <audio id="musicaBoda" loop src="https://docs.google.com/uc?export=download&id=1xkem7zhA0DQPEdz5gSJDbYaxtuSJctUC"></audio>
     
-    <div class="boton-musica" onclick="controlarMusica()">
+    <div class="boton-musica" onclick="alternarMusica()">
         <i id="iconoMusica" class="fas fa-music"></i>
     </div>
 
     <div class="contenedor-movil">
 
-        <!-- VISTA INTERACTIVA DEL SOBRE -->
-        <div class="seccion-sobre" id="pantallaSobre">
-            <div class="sobre-wrapper" id="sobreWrapper">
+        <div class="pantalla-sobre" id="pantallaSobre">
+            <div class="sobre-contenedor" id="sobreContenedor">
                 
-                <!-- Solapa del sobre -->
-                <div class="sobre-solapa"></div>
-                
-                <!-- Sello físico -->
-                <div class="sello" onclick="iniciarAnimacion()"></div>
-                
-                <!-- Tarjeta que resbala hacia arriba -->
                 <div class="tarjeta-interior">
                     <p class="encabezado-tarjeta">Nuestra Boda</p>
                     
-                    <!-- Monograma RP -->
                     <div class="monograma-marco">
-                        <div class="monograma-texto">R<span>P</span></div>
+                        <div class="monograma-texto">L<span>J</span></div>
                     </div>
 
-                    <div>
-                        <p class="sub-tarjeta">Invitación reservada para:</p>
+                    <div style="width: 100%;">
+                        <p class="sub-tarjeta">Invitación exclusiva para:</p>
                         <h3 class="invitado-nombre" id="nombreInvitado">Familia Martínez</h3>
                         <p class="invitado-pases" id="pasesInvitado">2 pases</p>
                     </div>
 
-                    <button class="btn-abrir-invitacion" onclick="retirarSobre()">Abrir Invitación</button>
+                    <button class="btn-abrir-invitacion" onclick="entrarInvitacion()">Abrir Invitación</button>
                 </div>
 
-                <!-- Cuerpo contenedor frontal -->
-                <div class="sobre-cuerpo"></div>
+                <div class="sobre-frontal"></div>
+
+                <div class="sobre-solapa"></div>
+
+                <div class="sello-lacre" onclick="abrirSolapa()"></div>
 
             </div>
         </div>
 
-        <!-- CONTENIDO DETALLADO DE LA INVITACIÓN -->
-        <div class="contenido-principal" id="contenidoPrincipal">
-            
-            <div class="seccion">
-                <!-- Imagen de Portada conectada mediante visor de Google Drive -->
-                <img src="https://lh3.googleusercontent.com/d/1xkem7zhA0DQPEdz5gSJDbYaxtuSJctUC" class="foto-boda" alt="Rebeca y Pablo">
-                <h1>REBECA & PABLO</h1>
+        <div class="contenido-principal">
+            <div class="seccion-hero">
+                <img src="http://googleusercontent.com/profile/picture/3" class="foto-boda" alt="Lore y Juli">
+                <h1>LORE & JULI</h1>
                 <p class="frase-amor">"A veces lo que empieza como una locura, se convierte en lo mejor de tu vida."</p>
             </div>
-
-            <!-- Puedes ir agregando el resto de las secciones aquí debajo de la misma forma -->
-
-        </div>
+            
+            </div>
 
     </div>
 
     <script>
-        // Lógica de parámetros dinámicos por URL
-        const parametros = new URLSearchParams(window.location.search);
-        if(parametros.get('n')) document.getElementById('nombreInvitado').innerText = parametros.get('n');
-        if(parametros.get('p')) document.getElementById('pasesInvitado').innerText = parametros.get('p') + " personas";
+        // Lectura automatizada de pases desde la URL (?n=Nombre&p=2)
+        const urlParams = new URLSearchParams(window.location.search);
+        if(urlParams.get('n')) document.getElementById('nombreInvitado').innerText = urlParams.get('n');
+        if(urlParams.get('p')) document.getElementById('pasesInvitado').innerText = urlParams.get('p') + " personas";
 
-        const sobre = document.getElementById('sobreWrapper');
+        const sobreContenedor = document.getElementById('sobreContenedor');
         const pantallaSobre = document.getElementById('pantallaSobre');
-        const contenido = document.getElementById('contenidoPrincipal');
-        const audio = document.getElementById('musicaFondo');
+        const audio = document.getElementById('musicaBoda');
         const icono = document.getElementById('iconoMusica');
 
-        // Paso 1: Abrir la solapa y subir la tarjeta
-        function iniciarAnimacion() {
-            sobre.classList.add('abierto');
-            // Intentar reproducir música automáticamente tras la primera interacción física
+        // Paso 1: Abre el sobre y sube la tarjeta
+        function abrirSolapa() {
+            sobreContenedor.classList.add('abierto');
+            // Intenta reproducir la melodía de fondo automáticamente al primer toque
             audio.play().then(() => {
                 icono.className = "fas fa-pause";
-            }).catch(() => console.log("Permiso de reproducción en espera."));
+            }).catch(() => console.log("Interacción requerida para audio."));
         }
 
-        // Paso 2: Desvanecer todo el sobre y mostrar el contenido inferior
-        function retirarSobre() {
-            // Asegura que la solapa esté abierta por si presionan directo el botón
-            sobre.classList.add('abierto'); 
-            
-            setTimeout(() => {
-                pantallaSobre.classList.add('desvanecido');
-                contenido.style.opacity = '1';
-                window.scrollTo({ top: 0, behavior: 'smooth' });
-            }, 400);
+        // Paso 2: Desplaza toda la pantalla del sobre hacia arriba y muestra el fondo
+        function entrarInvitacion() {
+            pantallaSobre.classList.add('oculta');
+            window.scrollTo({ top: 0, behavior: 'smooth' });
         }
 
-        // Control Manual del reproductor de audio flotante
-        function controlarMusica() {
+        // Control del botón de reproducción manual lateral
+        function alternarMusica() {
             if (audio.paused) {
                 audio.play();
                 icono.className = "fas fa-pause";
