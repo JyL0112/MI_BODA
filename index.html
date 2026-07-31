@@ -4,23 +4,35 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Invitación de Boda - Rebeca & Pablo</title>
+    
+    <!-- Fuentes elegantes e importación de iconos -->
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Cormorant+Garamond:ital,wght@0,300;0,400;0,600;1,400&family=Montserrat:wght@300;400&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css">
+
     <style>
         :root {
-            --verde-sobre: #6E7F6B;
-            --crema-fondo: #F4F1EA;
-            --texto-oscuro: #3D3D3D;
+            --verde-sobre: #7A8F75;
+            --verde-sobre-oscuro: #657761;
+            --crema-fondo: #E6DFD3;
+            --texto-oscuro: #4A4A4A;
+            --texto-secundario: #7E7E7E;
         }
 
         * {
             box-sizing: border-box;
             margin: 0;
             padding: 0;
-            font-family: 'Playfair Display', Georgia, serif;
         }
 
         body {
             background-color: var(--crema-fondo);
+            /* Fondo texturizado simulando el lino del video original */
+            background-image: radial-gradient(rgba(0,0,0,0.03) 1px, transparent 0);
+            background-size: 4px 4px;
             color: var(--texto-oscuro);
+            font-family: 'Cormorant Garamond', serif;
             display: flex;
             justify-content: center;
             align-items: center;
@@ -30,303 +42,406 @@
 
         .contenedor-movil {
             width: 100%;
-            max-width: 450px;
-            background: #fff;
+            max-width: 430px;
             min-height: 100vh;
-            box-shadow: 0 0 20px rgba(0,0,0,0.1);
             position: relative;
             display: flex;
             flex-direction: column;
+            background: #FAF8F5;
+            box-shadow: 0 0 30px rgba(0,0,0,0.08);
         }
 
-        /* --- VISTA DEL SOBRE --- */
-        .pantalla-sobre {
-            position: absolute;
-            top: 0; left: 0; width: 100%; height: 100%;
-            background: var(--crema-fondo);
-            z-index: 10;
+        /* --- CONTENEDOR DE LA ANIMACIÓN DEL SOBRE --- */
+        .seccion-sobre {
+            position: fixed;
+            top: 0;
+            left: 50%;
+            transform: translateX(-50%);
+            width: 100%;
+            max-width: 430px;
+            height: 100%;
+            z-index: 100;
             display: flex;
-            flex-direction: column;
+            justify-content: center;
+            align-items: center;
+            transition: transform 1s cubic-bezier(0.77, 0, 0.175, 1);
+            overflow: hidden;
+        }
+
+        /* El contenedor estructural del sobre */
+        .sobre-wrapper {
+            position: relative;
+            width: 90%;
+            height: 580px;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+        }
+
+        /* Cuerpo inferior y laterales del sobre */
+        .sobre-cuerpo {
+            position: absolute;
+            bottom: 40px;
+            width: 100%;
+            height: 240px;
+            background-color: var(--verde-sobre);
+            border-radius: 0 0 8px 8px;
+            box-shadow: 0 15px 35px rgba(0, 0, 0, 0.15);
+            z-index: 4;
+        }
+
+        /* Efecto de solapas laterales internas cortadas en diagonal */
+        .sobre-cuerpo::before {
+            content: '';
+            position: absolute;
+            top: 0; left: 0; width: 0; height: 0;
+            border-left: 195px solid var(--verde-sobre-oscuro);
+            border-top: 120px solid transparent;
+            border-bottom: 120px solid var(--verde-sobre-oscuro);
+            border-radius: 0 0 0 8px;
+        }
+
+        .sobre-cuerpo::after {
+            content: '';
+            position: absolute;
+            top: 0; right: 0; width: 0; height: 0;
+            border-right: 195px solid var(--verde-sobre-oscuro);
+            border-top: 120px solid transparent;
+            border-bottom: 120px solid var(--verde-sobre-oscuro);
+            border-radius: 0 0 8px 0;
+        }
+
+        /* Solapa triangular superior */
+        .sobre-solapa {
+            position: absolute;
+            top: 260px;
+            left: 0;
+            width: 0;
+            height: 0;
+            border-left: 193px solid transparent;
+            border-right: 193px solid transparent;
+            border-top: 135px solid var(--verde-sobre);
+            transform-origin: top center;
+            transition: transform 0.6s ease-in-out, z-index 0.2s 0.4s;
+            z-index: 5;
+            filter: drop-shadow(0 4px 5px rgba(0,0,0,0.1));
+        }
+
+        /* SELLO DE LACRE / CERA */
+        .sello {
+            position: absolute;
+            top: 360px;
+            left: 50%;
+            transform: translateX(-50%);
+            width: 55px;
+            height: 55px;
+            background: radial-gradient(circle, #E3C17E 0%, #C29E53 100%);
+            border-radius: 50%;
+            cursor: pointer;
+            z-index: 6;
+            box-shadow: 0 4px 10px rgba(0,0,0,0.2), inset 0 2px 4px rgba(255,255,255,0.4);
+            transition: transform 0.4s, opacity 0.4s 0.2s;
+            display: flex;
             align-items: center;
             justify-content: center;
-            transition: transform 0.8s ease-in-out;
-            padding: 20px;
         }
 
-        .sobre-grafico {
-            width: 80%;
-            height: 200px;
-            background: var(--verde-sobre);
-            position: relative;
-            border-radius: 4px;
-            margin-bottom: 30px;
-            cursor: pointer;
-            box-shadow: 0 10px 20px rgba(0,0,0,0.15);
+        .sello::after {
+            content: '⚜️';
+            font-size: 1.2rem;
+            opacity: 0.7;
+            color: #7A5F23;
         }
 
-        .sello-lacre {
-            width: 50px;
-            height: 50px;
-            background: #C5A059;
-            border-radius: 50%;
+        /* --- TARJETA BLANCA QUE SALE DEL SOBRE --- */
+        .tarjeta-interior {
             position: absolute;
-            top: 40%; left: 50%;
-            transform: translate(-50%, -50%);
-            box-shadow: inset 0 0 5px rgba(0,0,0,0.3);
-        }
-
-        .tarjeta-pase {
+            bottom: 45px;
+            width: 84%;
+            height: 480px;
+            background: #FFFFFF;
+            padding: 35px 25px;
             text-align: center;
-            background: white;
-            padding: 20px;
-            border-radius: 8px;
-            box-shadow: 0 4px 10px rgba(0,0,0,0.05);
-            width: 85%;
+            box-shadow: 0 4px 20px rgba(0,0,0,0.06);
+            z-index: 3;
+            transition: transform 1s cubic-bezier(0.68, -0.55, 0.265, 1.55);
+            display: flex;
+            flex-direction: column;
+            justify-content: space-between;
+            align-items: center;
         }
 
-        .btn-abrir {
-            margin-top: 20px;
-            background: var(--verde-sobre);
-            color: white;
-            border: none;
-            padding: 12px 30px;
+        /* LOGO MONOGRAMA IDENTICO AL VIDEO */
+        .monograma-marco {
+            width: 70px;
+            height: 110px;
+            border: 1px solid var(--texto-secundario);
+            border-radius: 50px;
+            position: relative;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            margin: 10px auto;
+        }
+
+        /* Hojas decorativas del marco (simuladas con pseudo-elementos) */
+        .monograma-marco::before, .monograma-marco::after {
+            content: '🌿';
+            position: absolute;
+            font-size: 0.7rem;
+            color: var(--verde-sobre);
+        }
+        .monograma-marco::before { top: -5px; left: 15px; transform: rotate(-30deg); }
+        .monograma-marco::after { bottom: -5px; right: 15px; transform: rotate(150deg); }
+
+        .monograma-texto {
+            font-size: 2.2rem;
+            font-weight: 300;
+            letter-spacing: -2px;
+            line-height: 1;
+            font-family: 'Cormorant Garamond', serif;
+        }
+
+        .monograma-texto span {
+            font-size: 1.4rem;
+            position: relative;
+            top: 10px;
+            font-weight: 400;
+            color: var(--texto-secundario);
+        }
+
+        .encabezado-tarjeta {
             font-size: 1rem;
-            border-radius: 20px;
-            cursor: pointer;
+            letter-spacing: 2px;
+            text-transform: uppercase;
+            color: var(--texto-secundario);
         }
 
-        /* --- CONTENIDO PRINCIPAL --- */
-        .contenido-boda {
-            display: none;
+        .sub-tarjeta {
+            font-family: 'Montserrat', sans-serif;
+            font-size: 0.65rem;
+            letter-spacing: 3px;
+            text-transform: uppercase;
+            color: var(--texto-secundario);
+            margin-top: 15px;
+            border-top: 1px solid #EAEAEA;
+            padding-top: 15px;
+            width: 80%;
+        }
+
+        .invitado-nombre {
+            font-size: 1.6rem;
+            font-weight: 400;
+            margin: 5px 0;
+        }
+
+        .invitado-pases {
+            font-family: 'Montserrat', sans-serif;
+            font-size: 0.8rem;
+            color: var(--texto-oscuro);
+        }
+
+        .btn-abrir-invitacion {
+            width: 100%;
+            background: transparent;
+            border: 1px solid #CCCCCC;
+            padding: 12px;
+            font-family: 'Cormorant Garamond', serif;
+            font-size: 1.05rem;
+            letter-spacing: 1px;
+            cursor: pointer;
+            transition: all 0.3s;
+            margin-top: 15px;
+        }
+
+        .btn-abrir-invitacion:hover {
+            background: #F9F9F9;
+            border-color: #888888;
+        }
+
+        /* --- ESTADOS DE LA ANIMACIÓN (DISPARADOS POR JS) --- */
+        .sobre-wrapper.abierto .sobre-solapa {
+            transform: rotateX(180deg);
+            z-index: 2;
+        }
+
+        .sobre-wrapper.abierto .sello {
+            transform: translate(-50%, 80px) scale(0);
             opacity: 0;
-            transition: opacity 0.5s ease;
-            padding: 30px 20px;
+        }
+
+        .sobre-wrapper.abierto .tarjeta-interior {
+            transform: translateY(-250px);
+            z-index: 6;
+        }
+
+        .seccion-sobre.desvanecido {
+            transform: translateX(-50%) translateY(-100vh);
+        }
+
+        /* --- CUERPO PRINCIPAL DE LA WEB (POST-APERTURA) --- */
+        .contenido-principal {
+            padding: 40px 25px;
+            opacity: 0;
+            transition: opacity 0.8s ease-in-out;
         }
 
         .seccion {
             text-align: center;
-            margin-bottom: 50px;
+            margin-bottom: 60px;
         }
 
-        .foto-pareja {
+        .foto-boda {
             width: 100%;
-            height: 350px;
+            height: 480px;
             object-fit: cover;
-            border-radius: 4px;
-            margin-bottom: 20px;
+            border-radius: 2px;
+            box-shadow: 0 8px 20px rgba(0,0,0,0.05);
         }
 
-        .contador {
-            display: flex;
-            justify-content: space-around;
-            background: var(--verde-sobre);
-            color: white;
-            padding: 15px;
-            border-radius: 8px;
-            margin: 20px 0;
+        h1 {
+            font-size: 2.6rem;
+            font-weight: 300;
+            letter-spacing: 4px;
+            margin: 25px 0 10px 0;
         }
 
-        .bloque-tiempo span {
-            display: block;
-            font-size: 1.5rem;
-            font-weight: bold;
+        .frase-amor {
+            font-size: 1.2rem;
+            font-style: italic;
+            color: var(--texto-secundario);
+            padding: 0 20px;
+            line-height: 1.6;
         }
 
-        .tarjeta-verde {
-            background: var(--verde-sobre);
-            color: white;
-            padding: 25px;
-            border-radius: 8px;
-            margin-bottom: 30px;
-        }
-
-        .btn-mapa {
-            display: inline-block;
-            margin-top: 10px;
-            background: white;
-            color: var(--texto-oscuro);
-            padding: 8px 20px;
-            text-decoration: none;
-            border-radius: 4px;
-            font-size: 0.9rem;
-        }
-
-        /* Formulario */
-        form {
-            display: flex;
-            flex-direction: column;
-            gap: 15px;
-            text-align: left;
-        }
-
-        input, select, textarea {
-            width: 100%;
-            padding: 12px;
-            border: 1px solid #ccc;
-            border-radius: 4px;
-        }
-
-        .btn-enviar {
-            background: var(--verde-sobre);
-            color: white;
-            border: none;
-            padding: 15px;
-            font-size: 1rem;
-            cursor: pointer;
-            border-radius: 4px;
-        }
-
-        /* Reproductor flotante */
-        .control-musica {
+        /* CONTROLES FLOTANTES */
+        .boton-musica {
             position: fixed;
-            bottom: 20px;
-            left: 20px;
-            background: white;
-            border-radius: 50%;
+            bottom: 25px;
+            left: 25px;
             width: 45px;
             height: 45px;
+            background: #FFFFFF;
+            border-radius: 50%;
             display: flex;
             align-items: center;
             justify-content: center;
-            box-shadow: 0 4px 10px rgba(0,0,0,0.2);
+            box-shadow: 0 4px 15px rgba(0,0,0,0.1);
             cursor: pointer;
-            z-index: 100;
+            z-index: 200;
+            color: var(--texto-oscuro);
+            transition: transform 0.3s;
+        }
+
+        .boton-musica:active {
+            transform: scale(0.9);
         }
     </style>
 </head>
 <body>
 
-<div class="contenedor-movil">
+    <!-- REPRODUCTOR DE AUDIO (Se activa con tu archivo de Google Drive configurado en modo descarga directa) -->
+    <audio id="musicaFondo" loop src="https://docs.google.com/uc?export=download&id=1xkem7zhA0DQPEdz5gSJDbYaxtuSJctUC"></audio>
     
-    <!-- Audio de fondo (Reemplaza con tu link) -->
-    <audio id="musicaBoda" loop src="https://www.soundhelix.com/examples/mp3/SoundHelix-Song-1.mp3"></audio>
-
-    <div class="control-musica" onclick="alternarMusica()">🎵</div>
-
-    <!-- PANTALLA INICIAL: SOBRE -->
-    <div class="pantalla-sobre" id="pantallaSobre">
-        <div class="sobre-grafico">
-            <div class="sello-lacre"></div>
-        </div>
-        <div class="tarjeta-pase">
-            <h2 style="font-size: 1.2rem; margin-bottom: 10px;">Nuestra Boda</h2>
-            <p>Invitación exclusiva para:</p>
-            <!-- Estos campos los puedes personalizar dinámicamente -->
-            <h3 style="margin: 10px 0;" id="nombreInvitado">Familia Martínez</h3>
-            <p><strong id="pasesInvitado">2 personas</strong></p>
-            <button class="btn-abrir" onclick="abrirInvitacion()">Abrir Invitación</button>
-        </div>
+    <div class="boton-musica" onclick="controlarMusica()">
+        <i id="iconoMusica" class="fas fa-music"></i>
     </div>
 
-    <!-- PANTALLA PRINCIPAL: DETALLES -->
-    <div class="contenido-boda" id="contenidoBoda">
-        
-        <!-- Portada -->
-        <div class="seccion">
-            <img src="https://images.unsplash.com/photo-1519741497674-611481863552?w=500" class="foto-pareja" alt="Novios">
-            <h1>REBECA & PABLO</h1>
-            <p style="font-style: italic; margin-top: 10px;">"A veces lo que empieza como una locura, se convierte en lo mejor de tu vida."</p>
-        </div>
+    <div class="contenedor-movil">
 
-        <!-- Cuenta Regresiva -->
-        <div class="seccion">
-            <h2>25 de Octubre, 2026</h2>
-            <div class="contador">
-                <div class="bloque-tiempo"><span id="dias">00</span>Días</div>
-                <div class="bloque-tiempo"><span id="horas">00</span>Horas</div>
-                <div class="bloque-tiempo"><span id="mins">00</span>Min</div>
-                <div class="bloque-tiempo"><span id="segs">00</span>Seg</div>
+        <!-- VISTA INTERACTIVA DEL SOBRE -->
+        <div class="seccion-sobre" id="pantallaSobre">
+            <div class="sobre-wrapper" id="sobreWrapper">
+                
+                <!-- Solapa del sobre -->
+                <div class="sobre-solapa"></div>
+                
+                <!-- Sello físico -->
+                <div class="sello" onclick="iniciarAnimacion()"></div>
+                
+                <!-- Tarjeta que resbala hacia arriba -->
+                <div class="tarjeta-interior">
+                    <p class="encabezado-tarjeta">Nuestra Boda</p>
+                    
+                    <!-- Monograma RP -->
+                    <div class="monograma-marco">
+                        <div class="monograma-texto">R<span>P</span></div>
+                    </div>
+
+                    <div>
+                        <p class="sub-tarjeta">Invitación reservada para:</p>
+                        <h3 class="invitado-nombre" id="nombreInvitado">Familia Martínez</h3>
+                        <p class="invitado-pases" id="pasesInvitado">2 pases</p>
+                    </div>
+
+                    <button class="btn-abrir-invitacion" onclick="retirarSobre()">Abrir Invitación</button>
+                </div>
+
+                <!-- Cuerpo contenedor frontal -->
+                <div class="sobre-cuerpo"></div>
+
             </div>
         </div>
 
-        <!-- Ubicaciones -->
-        <div class="seccion">
-            <div class="tarjeta-verde">
-                <h3>CEREMONIA</h3>
-                <p>01:30 PM</p>
-                <p>Iglesia San Josemaría</p>
-                <a href="https://maps.google.com" target="_blank" class="btn-mapa">Ver Mapa</a>
-            </div>
-
-            <div class="tarjeta-verde">
-                <h3>RECEPCIÓN</h3>
-                <p>04:00 PM</p>
-                <p>ubicacion</p>
-                <a href="https://maps.google.com" target="_blank" class="btn-mapa">Ver Mapa</a>
-            </div>
-        </div>
-
-        <!-- Formulario RSVP -->
-        <div class="seccion">
-            <h3>Confirma tu Asistencia</h3>
-            <p style="margin-bottom: 15px; font-size: 0.9rem;">Por favor, confírmanos antes del 1 de Septiembre.</p>
+        <!-- CONTENIDO DETALLADO DE LA INVITACIÓN -->
+        <div class="contenido-principal" id="contenidoPrincipal">
             
-            <!-- Reemplaza el 'ACTION_URL' con tu webhook de Google Sheets más adelante -->
-            <form id="formularioRSVP" action="https://script.google.com/macros/s/AKfycbyOOMNYFOA4rqcAPcD2NyBoZvOyjQW7inH0RFAYqsoIRXj7xjh1EwOx_h6nCvYemClv/exec" method="POST">
-                <label>¿Asistirás?</label>
-                <select name="asistencia" required>
-                    <option value="Sí, asistiré">Sí, asistiré</option>
-                    <option value="No podré asistir">No podré asistir</option>
-                </select>
+            <div class="seccion">
+                <!-- Imagen de Portada conectada mediante visor de Google Drive -->
+                <img src="https://lh3.googleusercontent.com/d/1xkem7zhA0DQPEdz5gSJDbYaxtuSJctUC" class="foto-boda" alt="Rebeca y Pablo">
+                <h1>REBECA & PABLO</h1>
+                <p class="frase-amor">"A veces lo que empieza como una locura, se convierte en lo mejor de tu vida."</p>
+            </div>
 
-                <label>Nombre Completo</label>
-                <input type="text" name="nombre" required placeholder="Ej. Juan Martínez">
+            <!-- Puedes ir agregando el resto de las secciones aquí debajo de la misma forma -->
 
-                <label>Teléfono</label>
-                <input type="tel" name="telefono" required>
-
-                <label>Mensaje para los novios</label>
-                <textarea name="mensaje" rows="3"></textarea>
-
-                <button type="submit" class="btn-enviar">Confirmar Asistencia</button>
-            </form>
         </div>
 
     </div>
-</div>
 
-<script>
-    // Parámetros dinámicos por URL (Ej: tuweb.com/?n=Familia+Perez&p=3)
-    const urlParams = new URLSearchParams(window.location.search);
-    if(urlParams.get('n')) document.getElementById('nombreInvitado').innerText = urlParams.get('n');
-    if(urlParams.get('p')) document.getElementById('pasesInvitado').innerText = urlParams.get('p') + " personas";
+    <script>
+        // Lógica de parámetros dinámicos por URL
+        const parametros = new URLSearchParams(window.location.search);
+        if(parametros.get('n')) document.getElementById('nombreInvitado').innerText = parametros.get('n');
+        if(parametros.get('p')) document.getElementById('pasesInvitado').innerText = parametros.get('p') + " personas";
 
-    function abrirInvitacion() {
-        document.getElementById('pantallaSobre').style.transform = 'translateY(-100vh)';
-        const contenido = document.getElementById('contenidoBoda');
-        contenido.style.display = 'block';
-        setTimeout(() => contenido.style.opacity = '1', 100);
-        
-        // Intenta reproducir música automáticamente al abrir
-        alternarMusica(true);
-    }
+        const sobre = document.getElementById('sobreWrapper');
+        const pantallaSobre = document.getElementById('pantallaSobre');
+        const contenido = document.getElementById('contenidoPrincipal');
+        const audio = document.getElementById('musicaFondo');
+        const icono = document.getElementById('iconoMusica');
 
-    function alternarMusica(forzarPlay = false) {
-        const musica = document.getElementById('musicaBoda');
-        if (musica.paused || forzarPlay) {
-            musica.play().catch(e => console.log("Interacción requerida para audio"));
-        } else {
-            musica.pause();
+        // Paso 1: Abrir la solapa y subir la tarjeta
+        function iniciarAnimacion() {
+            sobre.classList.add('abierto');
+            // Intentar reproducir música automáticamente tras la primera interacción física
+            audio.play().then(() => {
+                icono.className = "fas fa-pause";
+            }).catch(() => console.log("Permiso de reproducción en espera."));
         }
-    }
 
-    // Cuenta Regresiva
-    const fechaBoda = new Date("Oct 25, 2026 13:30:00").getTime();
-    setInterval(function() {
-        const ahora = new Date().getTime();
-        const distancia = fechaBoda - ahora;
-        
-        const dias = Math.floor(distancia / (1000 * 60 * 60 * 24));
-        const horas = Math.floor((distancia % (1000 * 60 * 60 * 24)) / (1000 * 60 * 60));
-        const minutos = Math.floor((distancia % (1000 * 60 * 60)) / (1000 * 60));
-        const segundos = Math.floor((distancia % (1000 * 60)) / 1000);
-        
-        document.getElementById("dias").innerText = dias;
-        document.getElementById("horas").innerText = horas;
-        document.getElementById("mins").innerText = minutos;
-        document.getElementById("segs").innerText = segundos;
-    }, 1000);
-</script>
+        // Paso 2: Desvanecer todo el sobre y mostrar el contenido inferior
+        function retirarSobre() {
+            // Asegura que la solapa esté abierta por si presionan directo el botón
+            sobre.classList.add('abierto'); 
+            
+            setTimeout(() => {
+                pantallaSobre.classList.add('desvanecido');
+                contenido.style.opacity = '1';
+                window.scrollTo({ top: 0, behavior: 'smooth' });
+            }, 400);
+        }
 
+        // Control Manual del reproductor de audio flotante
+        function controlarMusica() {
+            if (audio.paused) {
+                audio.play();
+                icono.className = "fas fa-pause";
+            } else {
+                audio.pause();
+                icono.className = "fas fa-music";
+            }
+        }
+    </script>
 </body>
 </html>
