@@ -3,21 +3,21 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Invitación de Boda - RP</title>
+    <title>Invitación de Boda - Lore & Juli</title>
     
     <style>
         /* ==========================================================================
-           1. PALETA DE COLORES Y TEXTURAS (VERDE SALVIA & LINDO CREMA)
+           1. PALETA DE COLORES (TEAL PREMIUM & MARFIL)
            ========================================================================== */
         :root {
-            --sobre-salvia: #8A9A86;        /* Verde salvia principal */
-            --sobre-salvia-oscuro: #73836F; /* Sombra física del sobre */
-            --sobre-interior: #E5E1D5;      /* Interior beige del sobre */
-            --blanco-marfil: #FDFCF7;       /* Tarjetas e invitaciones */
-            --gris-oscuro: #3A3A3A;          /* Texto principal */
-            --gris-calido: #757575;          /* Texto secundario */
-            --dorado-envejecido: #C29E53;   /* Sello de cera */
-            --fondo-lino: #F2EDE4;          /* Superficie general beige claro */
+            --color-teal: #005A5B;           /* Teal elegante principal */
+            --color-teal-oscuro: #004445;    /* Sombra interna y trasera del sobre */
+            --color-interior: #E5E1D5;       /* Interior crema / beige del sobre */
+            --color-marfil: #FDFCF7;         /* Color de las tarjetas */
+            --color-texto: #2C3E42;          /* Gris oscuro cálido */
+            --color-texto-suave: #607D81;    /* Gris atenuado */
+            --color-dorado: #C29E53;         /* Sello de cera */
+            --fondo-lino: #F2EDE4;           /* Fondo general simulando tela beige */
         }
 
         * {
@@ -28,20 +28,18 @@
 
         body {
             background-color: var(--fondo-lino);
-            /* Textura de lino cenital muy sutil */
             background-image: radial-gradient(rgba(0,0,0,0.02) 1px, transparent 0);
             background-size: 8px 8px;
-            color: var(--gris-oscuro);
+            color: var(--color-texto);
             font-family: 'Georgia', serif;
             display: flex;
             justify-content: center;
             align-items: center;
             min-height: 100vh;
             overflow: hidden;
-            perspective: 1000px; /* Base fundamental para la rotación 3D */
+            perspective: 1200px; /* Perspectiva global necesaria para el efecto 3D */
         }
 
-        /* Contenedor optimizado para pantallas móviles */
         .escenario-invitacion {
             position: relative;
             width: 100%;
@@ -60,11 +58,11 @@
             position: absolute;
             width: 86%;
             height: 72%;
-            background: var(--blanco-marfil);
+            background: var(--color-marfil);
             padding: 35px 24px;
             text-align: center;
-            box-shadow: 0 12px 35px rgba(0,0,0,0.07);
-            z-index: 100; /* Enfrente de todo al inicio */
+            box-shadow: 0 12px 35px rgba(0,0,0,0.08);
+            z-index: 100; /* Siempre al frente al inicio */
             display: flex;
             flex-direction: column;
             justify-content: space-between;
@@ -78,13 +76,13 @@
             font-size: 0.9rem;
             letter-spacing: 4px;
             text-transform: uppercase;
-            color: var(--gris-calido);
+            color: var(--color-texto-suave);
         }
 
-        /* Monograma Ovalado Fino */
+        /* Monograma Ovalado Elegante */
         .monograma-oval {
-            width: 70px;
-            height: 100px;
+            width: 75px;
+            height: 105px;
             border: 1px solid #DED9CE;
             border-radius: 50px;
             display: flex;
@@ -93,8 +91,14 @@
             font-size: 2.2rem;
             font-weight: 300;
             letter-spacing: -2px;
-            color: var(--gris-oscuro);
+            color: var(--color-texto);
             margin: 10px 0;
+            position: relative;
+        }
+        .monograma-oval span {
+            font-size: 1.3rem;
+            color: var(--color-texto-suave);
+            margin-left: 1px;
         }
 
         .bloque-invitado {
@@ -105,7 +109,7 @@
             font-size: 0.65rem;
             letter-spacing: 2px;
             text-transform: uppercase;
-            color: var(--gris-calido);
+            color: var(--color-texto-suave);
             margin-bottom: 6px;
         }
         .nombre-familia {
@@ -116,7 +120,7 @@
         .pases-cantidad {
             font-family: sans-serif;
             font-size: 0.75rem;
-            color: var(--gris-calido);
+            color: var(--color-texto-suave);
         }
 
         .btn-abrir {
@@ -133,13 +137,13 @@
             outline: none;
         }
         .btn-abrir:hover, .btn-abrir:active {
-            background: var(--gris-oscuro);
+            background: var(--color-texto);
             color: #FFFFFF;
-            border-color: var(--gris-oscuro);
+            border-color: var(--color-texto);
         }
 
         /* ==========================================================================
-           3. ESTRUCTURA MECÁNICA DEL SOBRE
+           3. ESTRUCTURA INTERACTIVA DEL SOBRE
            ========================================================================== */
         .sobre-capsula {
             position: relative;
@@ -148,46 +152,46 @@
             transform-style: preserve-3d;
         }
 
-        /* Cuerpo Base Trasero */
+        /* Base trasera del sobre */
         .sobre-base-trasera {
             position: absolute;
             width: 100%;
             height: 100%;
-            background-color: var(--sobre-salvia-oscuro);
+            background-color: var(--color-teal-oscuro);
             border-radius: 4px;
             z-index: 1;
-            box-shadow: 0 8px 25px rgba(0,0,0,0.08);
+            box-shadow: 0 8px 25px rgba(0,0,0,0.1);
         }
 
-        /* Solapa Superior Triangular (Animación 3D del pliegue) */
+        /* Solapa Superior (Giro 3D realista) */
         .sobre-solapa {
             position: absolute;
             top: 0; left: 0; width: 100%; height: 50%;
-            background-color: var(--sobre-salvia);
+            background-color: var(--color-teal);
             clip-path: polygon(0 0, 50% 100%, 100% 0);
             transform-origin: top center;
             transition: transform 0.9s cubic-bezier(0.4, 0, 0.2, 1), z-index 0.1s 0.45s;
-            z-index: 5; /* Oculta el interior al inicio */
-            filter: drop-shadow(0 3px 4px rgba(0,0,0,0.12));
+            z-index: 5;
+            filter: drop-shadow(0 3px 4px rgba(0,0,0,0.15));
         }
 
-        /* Interior beige expuesto de la solapa al abrirse */
+        /* Forro beige expuesto al girar la solapa */
         .sobre-solapa::before {
             content: '';
             position: absolute;
             top: 4px; left: 6px; right: 6px; bottom: 6px;
-            background: var(--sobre-interior);
+            background: var(--color-interior);
             clip-path: polygon(0 0, 50% 100%, 100% 0);
         }
 
-        /* Sello de cera artesanal dorado */
+        /* Sello de lacre */
         .sello-cera {
             position: absolute;
             top: 50%; left: 50%;
             transform: translate(-50%, -50%);
             width: 48px;
             height: 48px;
-            background: radial-gradient(circle, #EAD19B 0%, var(--dorado-envejecido) 100%);
+            background: radial-gradient(circle, #EAD19B 0%, var(--color-dorado) 100%);
             border-radius: 50%;
             z-index: 6;
             box-shadow: 0 4px 8px rgba(0,0,0,0.2), inset 0 1px 2px rgba(255,255,255,0.4);
@@ -201,38 +205,38 @@
             transition: opacity 0.4s, transform 0.4s;
         }
 
-        /* Capa frontal del sobre (Cortes triangulares superpuestos) */
+        /* Cuerpo frontal recortado del sobre */
         .sobre-frente {
             position: absolute;
             width: 100%; height: 100%;
-            z-index: 4; /* Deja pasar la tarjeta por detrás de él pero enfrente del fondo */
+            z-index: 4; /* Permite la salida de la tarjeta entre la base y el frente */
             pointer-events: none;
         }
         .sobre-frente::before {
             content: '';
             position: absolute;
             bottom: 0; left: 0; width: 100%; height: 100%;
-            background-color: var(--sobre-salvia);
+            background-color: var(--color-teal);
             clip-path: polygon(0 0, 0% 100%, 100% 100%, 50% 50%);
         }
         .sobre-frente::after {
             content: '';
             position: absolute;
             bottom: 0; left: 0; width: 100%; height: 100%;
-            background-color: var(--sobre-salvia-oscuro);
+            background-color: var(--color-teal-oscuro);
             clip-path: polygon(0 100%, 50% 48%, 100% 100%);
             opacity: 0.25;
         }
 
         /* ==========================================================================
-           4. TARJETA INTERIOR (LA INVITACIÓN MARFIL FINAL)
+           4. TARJETA INTERIOR (INVITACIÓN COMPLETA)
            ========================================================================== */
         .tarjeta-interior {
             position: absolute;
             bottom: 4%; left: 4%;
             width: 92%; height: 92%;
-            background: var(--blanco-marfil);
-            z-index: 2; /* Guardada mecánicamente dentro del sobre */
+            background: var(--color-marfil);
+            z-index: 2; /* Resguardada dentro del sobre */
             padding: 30px 20px;
             text-align: center;
             box-shadow: 0 2px 8px rgba(0,0,0,0.04);
@@ -247,7 +251,7 @@
         .nombres-novios {
             font-size: 1.9rem;
             font-weight: 300;
-            color: var(--gris-oscuro);
+            color: var(--color-teal-oscuro);
             margin: 5px 0;
             letter-spacing: 1px;
         }
@@ -255,7 +259,7 @@
         .texto-honor {
             font-size: 0.95rem;
             font-style: italic;
-            color: var(--gris-calido);
+            color: var(--color-texto-suave);
             line-height: 1.5;
             margin-bottom: 10px;
         }
@@ -268,45 +272,43 @@
             font-size: 0.6rem;
             letter-spacing: 2px;
             text-transform: uppercase;
-            color: var(--gris-calido);
+            color: var(--color-texto-suave);
         }
         .dato-valor {
             font-size: 1.15rem;
-            color: var(--gris-oscuro);
+            color: var(--color-texto);
             margin-top: 1px;
         }
 
         /* ==========================================================================
-           5. CLASES DE PASO DE ANIMACIÓN (ESTADOS DINÁMICOS)
+           5. ESTADOS Y CLASES DE ANIMACIÓN
            ========================================================================== */
         
-        /* 1. La tarjeta delantera se desvanece suavemente */
+        /* Desvanecimiento de la tarjeta frontal */
         .anim-ocultar-frontal {
             transform: translateY(-40px);
             opacity: 0;
             pointer-events: none;
         }
 
-        /* 2. La solapa rota en 3D sobre su eje superior */
+        /* Apertura 3D de la solapa */
         .anim-abrir-solapa {
             transform: rotateX(180deg);
-            z-index: 1; /* Pasa detrás de la tarjeta interior */
+            z-index: 1;
         }
         .anim-ocultar-sello {
             opacity: 0;
             transform: translate(-50%, -130%) scale(0.6);
         }
 
-        /* 3. La tarjeta interior emerge del sobre (translateY) y se expande */
+        /* Elevación y centrado de la invitación final */
         .anim-extraer-tarjeta {
             transform: translateY(-66%) scale(1.03);
-            z-index: 200; /* Pasa al frente absoluto */
-            box-shadow: 0 15px 35px rgba(0,0,0,0.12);
+            z-index: 200;
+            box-shadow: 0 15px 35px rgba(0,0,0,0.15);
         }
 
-        /* ==========================================================================
-           6. INTERFAZ FLOTANTE SECUNDARIA (MÚSICA Y REVERSO)
-           ========================================================================== */
+        /* Controles multimedia flotantes */
         .panel-controles {
             position: fixed;
             bottom: 20px;
@@ -328,7 +330,7 @@
             cursor: pointer;
             box-shadow: 0 4px 10px rgba(0,0,0,0.05);
             font-size: 0.95rem;
-            color: var(--gris-oscuro);
+            color: var(--color-texto);
             transition: transform 0.2s;
         }
         .btn-flotante:active { transform: scale(0.95); }
@@ -348,7 +350,7 @@
 
         <div class="tarjeta-frontal" id="moduloFrontal">
             <p class="titulo-boda">Nuestra Boda</p>
-            <div class="monograma-oval">RP</div>
+            <div class="monograma-oval">L<span>J</span></div>
             <div class="bloque-invitado">
                 <p class="texto-reserva">Invitación reservada para</p>
                 <h3 class="nombre-familia" id="lblFamilia">...</h3>
@@ -382,25 +384,25 @@
                     </div>
                 </div>
 
-                <div class="monograma-oval" style="transform: scale(0.65); margin: 0;">RP</div>
+                <div class="monograma-oval" style="transform: scale(0.65); margin: 0;">L<span>J</span></div>
             </div>
 
             <div class="sobre-frente"></div>
 
             <div class="sobre-solapa" id="moduloSolapa">
-                <div class="sello-cera" id="moduloSello">RP</div>
+                <div class="sello-cera" id="moduloSello">LJ</div>
             </div>
 
         </div>
     </div>
 
     <div class="panel-controles">
-        <button class="btn-flotante" onclick="mutarMusica()" title="Activar/Desactivar Música">🎵</button>
-        <button class="btn-flotante" id="btnCerrar" onclick="secuenciaInversa()" style="display: none;" title="Volver a cerrar">🔄</button>
+        <button class="btn-flotante" onclick="mutarMusica()" title="Música">🎵</button>
+        <button class="btn-flotante" id="btnCerrar" onclick="secuenciaInversa()" style="display: none;" title="Cerrar sobre">🔄</button>
     </div>
 
     <script>
-        // CÓDIGO CONFIGURABLE CENTRALIZADO
+        // CONFIGURACIÓN CENTRALIZADA DE LOS DATOS
         const invitationData = {
             groom: "Lore",
             bride: "Juli",
@@ -411,7 +413,6 @@
             venue: "Lugar de celebración"
         };
 
-        // Inyección automática al iniciar el DOM
         document.addEventListener("DOMContentLoaded", () => {
             document.getElementById('lblFamilia').innerText = invitationData.family;
             document.getElementById('lblPases').innerText = invitationData.guests;
@@ -423,62 +424,51 @@
 
         const cancion = document.getElementById('audioBoda');
 
-        // CRONOGRAMA DE ANIMACIÓN STRICT (0.0s a 4.0s)
+        // FLUJO SECUENCIAL CRONOMETRADO
         function secuenciaCinematografica() {
             document.getElementById('btnDisparar').disabled = true;
 
-            // 0.3s - 1.2s: La tarjeta frontal desaparece suavemente
+            // 0.2s - Desvanecer tarjeta delantera
             setTimeout(() => {
                 document.getElementById('moduloFrontal').classList.add('anim-ocultar-frontal');
-            }, 300);
+            }, 200);
 
-            // 0.8s - 2.0s: La solapa superior rota hacia arriba en 3D
+            // 0.8s - Rotación 3D de la solapa y ocultar sello de cera
             setTimeout(() => {
                 document.getElementById('moduloSolapa').classList.add('anim-abrir-solapa');
                 document.getElementById('moduloSello').classList.add('anim-ocultar-sello');
-                
-                // Intento automático de audio controlado
-                cancion.play().catch(() => console.log("Audio esperando acción física del usuario."));
+                cancion.play().catch(() => console.log("Permisos de audio pendientes."));
             }, 800);
 
-            // 2.0s - 3.5s: La invitación interior sale del sobre mediante translateY()
+            // 2.0s - Elevación tridimensional de la invitación real desde el sobre
             setTimeout(() => {
                 document.getElementById('moduloInterior').classList.add('anim-extraer-tarjeta');
             }, 2000);
 
-            // 3.5s: Habilitar botón opcional "Volver a cerrar"
+            // 3.5s - Mostrar botón opcional para revertir
             setTimeout(() => {
                 document.getElementById('btnCerrar').style.display = "flex";
             }, 3500);
         }
 
-        // CONTROL DE ANIMACIÓN INVERSA
         function secuenciaInversa() {
             document.getElementById('btnCerrar').style.display = "none";
-            
-            // 1. Guardar tarjeta de vuelta
             document.getElementById('moduloInterior').classList.remove('anim-extraer-tarjeta');
             
-            // 2. Cerrar solapa y recolocar sello
             setTimeout(() => {
                 document.getElementById('moduloSolapa').classList.remove('anim-abrir-solapa');
                 document.getElementById('moduloSello').classList.remove('anim-ocultar-sello');
             }, 1000);
 
-            // 3. Restaurar tarjeta frontal externa
             setTimeout(() => {
                 document.getElementById('moduloFrontal').classList.remove('anim-ocultar-frontal');
                 document.getElementById('btnDisparar').disabled = false;
             }, 1800);
         }
 
-        // Conmutador manual del botón de música
         function mutarMusica() {
-            if (cancion.paused) {
-                cancion.play();
-            } else {
-                cancion.pause();
-            }
+            if (cancion.paused) cancion.play();
+            else cancion.pause();
         }
     </script>
 </body>
