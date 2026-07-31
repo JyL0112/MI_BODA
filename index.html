@@ -30,32 +30,117 @@
         justify-content: center;
         align-items: center;
         min-height: 100vh;
-        min-height: 100dvh;
         overflow: hidden;
-        -webkit-perspective: 1200px;
-        perspective: 1200px;
+        perspective: 1400px;
     }
 
     .escenario-invitacion {
         position: relative;
         width: 100%;
-        max-width: 400px;
-        height: 85vh;
-        height: 85dvh;
-        max-height: 720px;
+        max-width: 420px;
+        height: 90vh;
+        max-height: 700px;
         display: flex;
         justify-content: center;
         align-items: center;
     }
 
-    /* ===================== TARJETA FRONTAL (SOBRE CERRADO) ===================== */
+    /* ===================== CONTENEDOR ANIDADO DEL SOBRE ===================== */
+    .sobre-capsula {
+        position: relative;
+        width: 90%;
+        height: 62%;
+        transform-style: preserve-3d;
+        box-shadow: 0 15px 35px rgba(0,0,0,0.12);
+        border-radius: 4px;
+    }
+
+    /* Fondo Interno del Sobre */
+    .sobre-base-trasera {
+        position: absolute;
+        width: 100%;
+        height: 100%;
+        background-color: var(--color-teal-oscuro);
+        border-radius: 4px;
+        z-index: 1;
+    }
+    .sobre-base-trasera::after {
+        content: '';
+        position: absolute;
+        top: 8px; left: 8px; right: 8px; bottom: 8px;
+        background: #EBE7DC;
+        clip-path: polygon(0% 42%, 50% 0%, 100% 42%, 100% 100%, 0% 100%);
+        opacity: 0.9;
+    }
+
+    /* Solapa Superior con Rotación Real 3D */
+    .sobre-solapa {
+        position: absolute;
+        top: 0; left: 0; width: 100%; height: 52%;
+        background-color: var(--color-teal);
+        clip-path: polygon(0 0, 50% 100%, 100% 0);
+        transform-origin: top center;
+        transition: transform 0.9s cubic-bezier(0.4, 0, 0.2, 1), z-index 0.1s 0.4s;
+        z-index: 5;
+    }
+    .sobre-solapa::before {
+        content: '';
+        position: absolute;
+        top: 4px; left: 6px; right: 6px; bottom: 6px;
+        background: var(--color-interior);
+        clip-path: polygon(0 0, 50% 100%, 100% 0);
+    }
+
+    /* Sello de cera acoplado en el vértice de la solapa */
+    .sello-cera {
+        position: absolute;
+        bottom: -2px; left: 50%;
+        transform: translate(-50%, 50%);
+        width: 52px; height: 52px;
+        background: radial-gradient(circle, #EAD19B 0%, var(--color-dorado) 100%);
+        border-radius: 50%;
+        z-index: 6;
+        box-shadow: 0 4px 8px rgba(0,0,0,0.25), inset 0 1px 2px rgba(255,255,255,0.4);
+        display: flex; align-items: center; justify-content: center;
+        font-size: 0.85rem; color: #554117; font-weight: bold; letter-spacing: 1px;
+        transition: opacity 0.4s, transform 0.4s;
+    }
+
+    /* Cuerpo frontal que contiene físicamente los cortes del sobre */
+    .sobre-frente-corte {
+        position: absolute;
+        width: 100%; height: 100%;
+        z-index: 4;
+        pointer-events: none;
+    }
+    .sobre-frente-corte::before {
+        content: '';
+        position: absolute;
+        bottom: 0; left: 0; width: 100%; height: 100%;
+        background-color: var(--color-teal);
+        clip-path: polygon(0 38%, 0% 100%, 100% 100%, 50% 50%);
+    }
+    .sobre-frente-corte::after {
+        content: '';
+        position: absolute;
+        bottom: 0; right: 0; width: 100%; height: 100%;
+        background-color: var(--color-teal);
+        clip-path: polygon(100% 38%, 0% 100%, 100% 100%, 50% 50%);
+    }
+    .sobre-frente-cierre {
+        position: absolute;
+        bottom: 0; left: 0; width: 100%; height: 52%;
+        background-color: var(--color-teal-oscuro);
+        clip-path: polygon(0 100%, 50% 0%, 100% 100%);
+        opacity: 0.4;
+        z-index: 4;
+    }
+
+    /* ===================== TARJETA FRONTAL EXTERIOR ===================== */
     .tarjeta-frontal {
         position: absolute;
-        top: 30%;
-        left: 50%;
-        transform: translateX(-50%);
-        width: 84%;
-        height: 62%;
+        width: 86%;
+        height: 75%;
         background: var(--color-marfil);
         padding: 35px 24px;
         text-align: center;
@@ -70,135 +155,26 @@
         transition: transform 0.8s cubic-bezier(0.76, 0, 0.24, 1), opacity 0.6s ease;
     }
 
-    .titulo-boda {
-        font-size: 0.9rem;
-        letter-spacing: 4px;
-        text-transform: uppercase;
-        color: var(--color-texto-suave);
-    }
-
     .monograma-oval {
-        width: 75px;
-        height: 105px;
+        width: 80px;
+        height: 115px;
         border: 1px solid #DED9CE;
         border-radius: 50px;
         display: flex;
         align-items: center;
         justify-content: center;
-        font-size: 2.2rem;
+        font-size: 2.4rem;
         font-weight: 300;
         letter-spacing: -2px;
         color: var(--color-texto);
         margin: 10px 0;
+        position: relative;
     }
-    .monograma-oval span { font-size: 1.3rem; color: var(--color-texto-suave); margin-left: 1px; }
+    .monograma-oval::before { content: '🌿'; position: absolute; top: -8px; font-size: 0.75rem; }
+    .monograma-oval::after { content: '🌿'; position: absolute; bottom: -8px; font-size: 0.75rem; transform: rotate(180deg); }
+    .monograma-oval span { font-size: 1.4rem; color: var(--color-texto-suave); margin: 0 2px; }
 
-    .bloque-invitado { width: 100%; }
-    .texto-reserva {
-        font-family: sans-serif;
-        font-size: 0.65rem;
-        letter-spacing: 2px;
-        text-transform: uppercase;
-        color: var(--color-texto-suave);
-        margin-bottom: 6px;
-    }
-    .nombre-familia { font-size: 1.6rem; font-weight: 400; margin-bottom: 4px; }
-    .pases-cantidad { font-family: sans-serif; font-size: 0.75rem; color: var(--color-texto-suave); }
-
-    .btn-abrir {
-        width: 100%;
-        background: transparent;
-        border: 1px solid #C5BEB1;
-        padding: 13px;
-        font-family: Georgia, serif;
-        font-size: 0.95rem;
-        letter-spacing: 2px;
-        text-transform: uppercase;
-        cursor: pointer;
-        transition: all 0.3s ease;
-        outline: none;
-    }
-    .btn-abrir:hover, .btn-abrir:active {
-        background: var(--color-texto);
-        color: #FFFFFF;
-        border-color: var(--color-texto);
-    }
-
-    /* ===================== SOBRE ===================== */
-    .sobre-capsula {
-        position: absolute;
-        top: 12%;
-        left: 50%;
-        transform: translateX(-50%);
-        width: 90%;
-        height: 66%;
-        -webkit-transform-style: preserve-3d;
-        transform-style: preserve-3d;
-    }
-
-    .sobre-base-trasera {
-        position: absolute;
-        width: 100%;
-        height: 100%;
-        background-color: var(--color-teal-oscuro);
-        border-radius: 4px;
-        z-index: 1;
-        box-shadow: 0 8px 25px rgba(0,0,0,0.1);
-    }
-
-    .sobre-solapa {
-        position: absolute;
-        top: 0; left: 0; width: 100%; height: 50%;
-        background-color: var(--color-teal);
-        -webkit-clip-path: polygon(0 0, 50% 100%, 100% 0);
-        clip-path: polygon(0 0, 50% 100%, 100% 0);
-        transform-origin: top center;
-        -webkit-transform-origin: top center;
-        transition: transform 0.9s cubic-bezier(0.4, 0, 0.2, 1), z-index 0.1s 0.45s;
-        z-index: 5;
-        filter: drop-shadow(0 3px 4px rgba(0,0,0,0.15));
-    }
-    .sobre-solapa::before {
-        content: '';
-        position: absolute;
-        top: 4px; left: 6px; right: 6px; bottom: 6px;
-        background: var(--color-interior);
-        -webkit-clip-path: polygon(0 0, 50% 100%, 100% 0);
-        clip-path: polygon(0 0, 50% 100%, 100% 0);
-    }
-
-    .sello-cera {
-        position: absolute;
-        top: 50%; left: 50%;
-        transform: translate(-50%, -50%);
-        width: 48px; height: 48px;
-        background: radial-gradient(circle, #EAD19B 0%, var(--color-dorado) 100%);
-        border-radius: 50%;
-        z-index: 6;
-        box-shadow: 0 4px 8px rgba(0,0,0,0.2), inset 0 1px 2px rgba(255,255,255,0.4);
-        display: flex; align-items: center; justify-content: center;
-        font-size: 0.8rem; color: #554117; font-weight: bold; letter-spacing: 1px;
-        transition: opacity 0.4s, transform 0.4s;
-    }
-
-    .sobre-frente { position: absolute; width: 100%; height: 100%; z-index: 4; pointer-events: none; }
-    .sobre-frente::before {
-        content: '';
-        position: absolute; bottom: 0; left: 0; width: 100%; height: 100%;
-        background-color: var(--color-teal);
-        -webkit-clip-path: polygon(0 0, 0% 100%, 100% 100%, 50% 50%);
-        clip-path: polygon(0 0, 0% 100%, 100% 100%, 50% 50%);
-    }
-    .sobre-frente::after {
-        content: '';
-        position: absolute; bottom: 0; left: 0; width: 100%; height: 100%;
-        background-color: var(--color-teal-oscuro);
-        -webkit-clip-path: polygon(0 100%, 50% 48%, 100% 100%);
-        clip-path: polygon(0 100%, 50% 48%, 100% 100%);
-        opacity: 0.25;
-    }
-
-    /* ===================== TARJETA INTERIOR = CONTENEDOR DEL CARRUSEL ===================== */
+    /* ===================== TARJETA INTERIOR (CARRUSEL MÓVIL) ===================== */
     .tarjeta-interior {
         position: absolute;
         bottom: 4%; left: 4%;
@@ -206,17 +182,22 @@
         background: var(--color-marfil);
         z-index: 2;
         box-shadow: 0 2px 8px rgba(0,0,0,0.04);
-        border-radius: 6px;
+        border-radius: 4px;
         overflow: hidden;
-        transition: transform 1.2s cubic-bezier(0.25, 1, 0.5, 1), z-index 0.1s 0.5s;
+        opacity: 0;
+        transform: translateY(0);
+        transition: transform 1.2s cubic-bezier(0.25, 1, 0.5, 1), z-index 0.1s 0.5s, opacity 0.4s ease;
     }
+    .interior-visible { opacity: 1; }
+    
+    /* Extraer y superponer al frente del sobre completo */
     .anim-extraer-tarjeta {
-        transform: translateY(-66%) scale(1.03);
+        transform: translateY(-62%) scale(1.04);
         z-index: 200;
-        box-shadow: 0 15px 35px rgba(0,0,0,0.15);
+        box-shadow: 0 20px 45px rgba(0,0,0,0.18);
     }
 
-    /* ===================== CARRUSEL DE TARJETAS ===================== */
+    /* ===================== COMPONENTES INTERNOS DEL CARRUSEL ===================== */
     .carrusel {
         display: flex;
         width: 100%;
@@ -224,7 +205,6 @@
         overflow-x: auto;
         overflow-y: hidden;
         scroll-snap-type: x mandatory;
-        -webkit-overflow-scrolling: touch;
         scrollbar-width: none;
     }
     .carrusel::-webkit-scrollbar { display: none; }
@@ -239,57 +219,28 @@
         align-items: center;
         justify-content: center;
         text-align: center;
-        padding: 34px 26px;
+        padding: 35px 25px;
         position: relative;
     }
-
     .slide-teal {
         background: linear-gradient(160deg, var(--color-teal) 0%, var(--color-teal-oscuro) 100%);
         color: var(--color-marfil);
     }
-
-    .slide .titulo-boda { margin-bottom: 6px; }
     .slide-teal .titulo-boda { color: rgba(253,252,247,0.7); }
-
-    .nombres-novios {
-        font-size: 2rem;
-        font-weight: 300;
-        letter-spacing: 1px;
-        margin: 10px 0;
-    }
     .slide-teal .nombres-novios { color: var(--color-marfil); }
     .tarjeta-interior .slide:not(.slide-teal) .nombres-novios { color: var(--color-teal-oscuro); }
-
-    .texto-honor {
-        font-size: 0.95rem;
-        font-style: italic;
-        line-height: 1.5;
-        margin-bottom: 6px;
-        color: var(--color-texto-suave);
-    }
     .slide-teal .texto-honor { color: rgba(253,252,247,0.85); }
-
-    .fecha-grande {
-        font-size: 1.05rem;
-        letter-spacing: 3px;
-        text-transform: uppercase;
-        margin-top: 14px;
-    }
-
-    .icono-anillos { font-size: 1.6rem; margin-bottom: 6px; opacity: 0.85; }
-
-    .bloque-dato { margin-bottom: 14px; }
-    .dato-titulo {
-        font-family: sans-serif;
-        font-size: 0.62rem;
-        letter-spacing: 2px;
-        text-transform: uppercase;
-        color: var(--color-texto-suave);
-    }
     .slide-teal .dato-titulo { color: rgba(253,252,247,0.65); }
+    .slide-teal .dato-sub { color: rgba(253,252,247,0.75); }
+
+    .nombres-novios { font-size: 2.1rem; font-weight: 300; letter-spacing: 1px; margin: 10px 0; }
+    .texto-honor { font-size: 0.95rem; font-style: italic; line-height: 1.5; margin-bottom: 6px; color: var(--color-texto-suave); }
+    .fecha-grande { font-size: 1.1rem; letter-spacing: 3px; text-transform: uppercase; margin-top: 14px; }
+    .icono-anillos { font-size: 1.6rem; margin-bottom: 6px; opacity: 0.85; }
+    .bloque-dato { margin-bottom: 14px; }
+    .dato-titulo { font-family: sans-serif; font-size: 0.62rem; letter-spacing: 2px; text-transform: uppercase; color: var(--color-texto-suave); }
     .dato-valor { font-size: 1.25rem; margin-top: 3px; }
     .dato-sub { font-family: sans-serif; font-size: 0.8rem; color: var(--color-texto-suave); margin-top: 2px; }
-    .slide-teal .dato-sub { color: rgba(253,252,247,0.75); }
 
     .btn-linea {
         margin-top: 10px;
@@ -305,129 +256,65 @@
         cursor: pointer;
         text-decoration: none;
         display: inline-block;
+        transition: background 0.2s;
     }
+    .btn-linea:hover { background: rgba(255,255,255,0.1); }
 
-    .monograma-mini {
-        width: 46px; height: 64px;
-        border: 1px solid rgba(0,0,0,0.15);
-        border-radius: 30px;
-        display: flex; align-items: center; justify-content: center;
-        font-size: 1.2rem; font-weight: 300; letter-spacing: -1px;
-        margin-top: 16px;
-    }
-    .slide-teal .monograma-mini { border-color: rgba(255,255,255,0.4); }
-    .monograma-mini span { font-size: 0.75rem; margin-left: 1px; opacity: 0.7; }
-
-    /* Formulario RSVP */
     .form-rsvp { width: 100%; display: flex; flex-direction: column; gap: 10px; margin-top: 14px; }
     .form-rsvp input, .form-rsvp select, .form-rsvp textarea {
-        width: 100%;
-        font-family: sans-serif;
-        font-size: 0.85rem;
-        padding: 11px 12px;
-        border: 1px solid #D8D2C4;
-        border-radius: 4px;
-        background: #fff;
-        color: var(--color-texto);
-        outline: none;
+        width: 100%; font-family: sans-serif; font-size: 0.85rem; padding: 11px 12px;
+        border: 1px solid #D8D2C4; border-radius: 4px; background: #fff; color: var(--color-texto); outline: none;
     }
     .form-rsvp textarea { resize: none; height: 60px; }
     .btn-enviar {
-        font-family: sans-serif;
-        font-size: 0.8rem;
-        letter-spacing: 1.5px;
-        text-transform: uppercase;
-        background: var(--color-teal);
-        color: #fff;
-        border: none;
-        padding: 12px;
-        border-radius: 4px;
-        cursor: pointer;
+        font-family: sans-serif; font-size: 0.8rem; letter-spacing: 1.5px; text-transform: uppercase;
+        background: var(--color-teal); color: #fff; border: none; padding: 12px; border-radius: 4px; cursor: pointer;
     }
     .msg-confirmado { font-family: sans-serif; font-size: 0.85rem; color: var(--color-teal); margin-top: 8px; display: none; }
 
-    /* Indicadores (puntos) del carrusel */
-    .puntos-carrusel {
-        position: absolute;
-        bottom: 10px;
-        left: 50%;
-        transform: translateX(-50%);
-        display: flex;
-        gap: 6px;
-        z-index: 250;
-    }
-    .punto {
-        width: 6px; height: 6px;
-        border-radius: 50%;
-        background: rgba(44,62,66,0.2);
-        transition: background 0.25s, transform 0.25s;
-    }
+    .puntos-carrusel { position: absolute; bottom: 12px; left: 50%; transform: translateX(-50%); display: flex; gap: 6px; z-index: 250; }
+    .punto { width: 6px; height: 6px; border-radius: 50%; background: rgba(44,62,66,0.2); transition: background 0.25s, transform 0.25s; }
     .punto.activo { background: var(--color-teal); transform: scale(1.3); }
 
-    /* ===================== ANIMACIONES DE APERTURA ===================== */
-    .anim-ocultar-frontal { transform: translateX(-50%) translateY(-40px); opacity: 0; pointer-events: none; }
+    /* ===================== CLASES CONTROLADORAS DE ANIMACIÓN ===================== */
+    .anim-ocultar-frontal { transform: scale(0.9) translateY(-30px); opacity: 0; pointer-events: none; }
     .anim-abrir-solapa { transform: rotateX(180deg); z-index: 1; }
-    .anim-ocultar-sello { opacity: 0; transform: translate(-50%, -130%) scale(0.6); }
+    .anim-ocultar-sello { opacity: 0; transform: translate(-50%, -100%) scale(0.4); pointer-events: none; }
 
-    /* Controles flotantes */
     .panel-controles { position: fixed; bottom: 20px; right: 20px; display: flex; gap: 12px; z-index: 1000; }
     .btn-flotante {
-        width: 44px; height: 44px;
-        background: #FFFFFF;
-        border: 1px solid rgba(0,0,0,0.05);
-        border-radius: 50%;
-        display: flex; align-items: center; justify-content: center;
-        cursor: pointer;
-        box-shadow: 0 4px 10px rgba(0,0,0,0.05);
-        font-size: 0.95rem;
-        color: var(--color-texto);
-        transition: transform 0.2s;
+        width: 44px; height: 44px; background: #FFFFFF; border: 1px solid rgba(0,0,0,0.05); border-radius: 50%;
+        display: flex; align-items: center; justify-content: center; cursor: pointer;
+        box-shadow: 0 4px 10px rgba(0,0,0,0.05); font-size: 0.95rem; color: var(--color-texto); transition: transform 0.2s;
     }
     .btn-flotante:active { transform: scale(0.95); }
-
-    @media (prefers-reduced-motion: reduce) {
-        .tarjeta-frontal, .sobre-solapa, .tarjeta-interior, .sello-cera { transition: none !important; }
-    }
 </style>
 </head>
 <body>
 
 <audio id="audioBoda" loop preload="none"></audio>
-<!-- Para agregar música: sube tu mp3 a un hosting que permita reproducción directa
-     (por ejemplo GitHub, tu propio servidor, o Cloudinary) y pon el link en src="" arriba.
-     Los enlaces de Google Drive NO funcionan aquí (bloquean la reproducción directa). -->
 
 <div class="escenario-invitacion">
 
-    <!-- TARJETA FRONTAL -->
-    <div class="tarjeta-frontal" id="moduloFrontal">
-        <p class="titulo-boda">Nuestra Boda</p>
-        <div class="monograma-oval">L<span>J</span></div>
-        <div class="bloque-invitado">
-            <p class="texto-reserva">Invitación reservada para</p>
-            <h3 class="nombre-familia" id="lblFamilia">Familia Martínez</h3>
-            <p class="pases-cantidad" id="lblPases">2 personas</p>
-        </div>
-        <button class="btn-abrir" id="btnDisparar" onclick="secuenciaCinematografica()">Abrir invitación</button>
-    </div>
-
-    <!-- SOBRE -->
-    <div class="sobre-capsula">
+    <!-- 1. SOBRE MECÁNICO BASE -->
+    <div class="sobre-capsula" id="sobreCapsula">
+        <!-- Pared fondo -->
         <div class="sobre-base-trasera"></div>
 
+        <!-- Tarjeta Interior Oculta -->
         <div class="tarjeta-interior" id="moduloInterior">
             <div class="carrusel" id="carrusel">
 
-                <!-- 1. PORTADA -->
+                <!-- SLIDE 1: PORTADA -->
                 <div class="slide slide-teal">
                     <p class="titulo-boda">Nos casamos</p>
                     <h2 class="nombres-novios">Lore & Juli</h2>
                     <p class="texto-honor">Tenemos el honor de invitarte a celebrar nuestra boda.</p>
                     <p class="fecha-grande" id="lblFechaPortada">15 de noviembre, 2026</p>
-                    <div class="monograma-mini">L<span>J</span></div>
+                    <div class="monograma-oval" style="transform: scale(0.6); border-color: rgba(255,255,255,0.3); color:#fff; margin-top: 15px;">L<span>J</span></div>
                 </div>
 
-                <!-- 2. CEREMONIA -->
+                <!-- SLIDE 2: CEREMONIA -->
                 <div class="slide">
                     <div class="icono-anillos">💍</div>
                     <p class="titulo-boda" style="color:var(--color-texto-suave)">Ceremonia</p>
@@ -441,7 +328,7 @@
                     <a class="btn-linea" id="linkMapaCeremonia" href="#" target="_blank" style="color:var(--color-texto);">Ver mapa</a>
                 </div>
 
-                <!-- 3. RECEPCION -->
+                <!-- SLIDE 3: RECEPCION -->
                 <div class="slide slide-teal">
                     <div class="icono-anillos">🥂</div>
                     <p class="titulo-boda">Recepción</p>
@@ -455,14 +342,14 @@
                     <a class="btn-linea" id="linkMapaRecepcion" href="#" target="_blank">Ver mapa</a>
                 </div>
 
-                <!-- 4. MESA DE REGALOS -->
+                <!-- SLIDE 4: MESA DE REGALOS -->
                 <div class="slide">
                     <p class="titulo-boda" style="color:var(--color-texto-suave)">Mesa de Regalos</p>
                     <p class="texto-honor" style="margin-top:14px;">Tu presencia es nuestro mejor regalo. Si deseas obsequiarnos algo, con mucho cariño te compartimos esta opción.</p>
                     <a class="btn-linea" id="linkMesaRegalos" href="#" target="_blank" style="color:var(--color-texto);">Ver mesa de regalos</a>
                 </div>
 
-                <!-- 5. DRESS CODE -->
+                <!-- SLIDE 5: DRESS CODE -->
                 <div class="slide slide-teal">
                     <p class="titulo-boda">Dress Code</p>
                     <p class="dato-valor" style="margin-top:14px; letter-spacing:2px; text-transform:uppercase;">Formal</p>
@@ -470,7 +357,7 @@
                     <p class="dato-sub" style="margin-top:16px;">Por favor, sin niños. ¡Gracias por entender!</p>
                 </div>
 
-                <!-- 6. CONFIRMA TU ASISTENCIA -->
+                <!-- SLIDE 6: CONFIRMA TU ASISTENCIA -->
                 <div class="slide">
                     <p class="titulo-boda" style="color:var(--color-texto-suave)">Confirma tu Asistencia</p>
                     <form class="form-rsvp" id="formRSVP" onsubmit="return enviarConfirmacion(event)">
@@ -491,12 +378,28 @@
             <div class="puntos-carrusel" id="puntosCarrusel"></div>
         </div>
 
-        <div class="sobre-frente"></div>
+        <!-- Frente físico del sobre -->
+        <div class="sobre-frente-corte"></div>
+        <div class="sobre-frente-cierre"></div>
 
+        <!-- Solapa Superior -->
         <div class="sobre-solapa" id="moduloSolapa">
             <div class="sello-cera" id="moduloSello">LJ</div>
         </div>
     </div>
+
+    <!-- 2. TARJETA FRONTAL EXTERIOR -->
+    <div class="tarjeta-frontal" id="moduloFrontal">
+        <p class="titulo-boda">Nuestra Boda</p>
+        <div class="monograma-oval">L<span>J</span></div>
+        <div class="bloque-invitado">
+            <p class="texto-reserva">Invitación reservada para</p>
+            <h3 class="nombre-familia" id="lblFamilia">Familia Martínez</h3>
+            <p class="pases-cantidad" id="lblPases">2 personas</p>
+        </div>
+        <button class="btn-abrir" id="btnDisparar" onclick="secuenciaCinematografica()">Abrir invitación</button>
+    </div>
+
 </div>
 
 <div class="panel-controles">
@@ -509,7 +412,7 @@
     const invitationData = {
         groom: "Lore",
         bride: "Juli",
-        family: "Familia XXXXXXX",
+        family: "Familia Martínez",
         guests: "2 personas",
         date: "15 de noviembre, 2026",
         ceremonyTime: "1:30 PM",
@@ -546,6 +449,7 @@
     function construirPuntosCarrusel() {
         const slides = document.querySelectorAll('.slide');
         const contenedor = document.getElementById('puntosCarrusel');
+        contenedor.innerHTML = '';
         slides.forEach((_, i) => {
             const p = document.createElement('div');
             p.className = 'punto' + (i === 0 ? ' activo' : '');
@@ -564,30 +468,33 @@
         e.preventDefault();
         document.getElementById('formRSVP').style.display = 'none';
         document.getElementById('msgConfirmado').style.display = 'block';
-        // Aquí puedes conectar con Google Forms, Sheets, WhatsApp, etc.
         return false;
     }
 
     function secuenciaCinematografica() {
         document.getElementById('btnDisparar').disabled = true;
 
+        // FASE 1: Se oculta/desvanece la tarjeta delantera
         setTimeout(() => {
             document.getElementById('moduloFrontal').classList.add('anim-ocultar-frontal');
         }, 200);
 
+        // FASE 2: Abre la solapa 3D superior y remueve el sello
         setTimeout(() => {
             document.getElementById('moduloSolapa').classList.add('anim-abrir-solapa');
             document.getElementById('moduloSello').classList.add('anim-ocultar-sello');
-            cancion.play().catch(() => console.log("Reproducción de audio pendiente de interacción o sin fuente."));
-        }, 800);
+            document.getElementById('moduloInterior').classList.add('interior-visible');
+            cancion.play().catch(() => console.log("Audio esperando interactuación directa."));
+        }, 900);
 
+        // FASE 3: Emerge la tarjeta interior deslizándose hacia arriba
         setTimeout(() => {
             document.getElementById('moduloInterior').classList.add('anim-extraer-tarjeta');
-        }, 2000);
+        }, 2100);
 
         setTimeout(() => {
             document.getElementById('btnCerrar').style.display = "flex";
-        }, 3500);
+        }, 3400);
     }
 
     function secuenciaInversa() {
@@ -597,6 +504,7 @@
         setTimeout(() => {
             document.getElementById('moduloSolapa').classList.remove('anim-abrir-solapa');
             document.getElementById('moduloSello').classList.remove('anim-ocultar-sello');
+            document.getElementById('moduloInterior').classList.remove('interior-visible');
         }, 1000);
 
         setTimeout(() => {
@@ -606,7 +514,7 @@
     }
 
     function mutarMusica() {
-        if (!cancion.src) { console.log("No hay una fuente de audio configurada."); return; }
+        if (!cancion.src) { console.log("No hay origen de audio configurado."); return; }
         if (cancion.paused) cancion.play(); else cancion.pause();
     }
 </script>
